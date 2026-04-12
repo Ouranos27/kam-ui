@@ -1,0 +1,72 @@
+---
+import { Code } from 'astro/components';
+
+interface Props {
+	code: string;
+	/** Shiki language id (e.g. tsx, css) */
+	lang?: string;
+	filename?: string;
+}
+
+const { code, lang = 'tsx', filename } = Astro.props;
+const copyRootId = `copy-root-${crypto.randomUUID()}`;
+---
+
+<figure data-rehype-pretty-code-figure="" class="group -mx-1 md:-mx-1">
+	{
+		filename && (
+			<figcaption
+				data-rehype-pretty-code-title=""
+				class="text-code-foreground flex items-center gap-2 font-mono text-sm [&_svg]:size-4 [&_svg]:text-code-foreground [&_svg]:opacity-70"
+			>
+				{filename}
+			</figcaption>
+		)
+	}
+	<div class="relative" id={copyRootId}>
+		<button
+			type="button"
+			data-slot="copy-button"
+			class="copy-btn kam-extract-btn border-border bg-code hover:bg-code-highlight text-code-foreground/90 hover:text-code-foreground absolute top-2 right-2 z-10 inline-flex min-h-11 cursor-pointer items-center gap-2 border border-black px-2.5 py-2 transition-colors duration-200 sm:min-h-0 dark:border-zinc-500"
+			aria-label="Extract source — copy code"
+		>
+			<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+				></path>
+			</svg>
+			<span class="copy-label font-mono text-[10px] font-semibold tracking-[0.12em] uppercase">Extract source</span>
+		</button>
+		<Code code={code} lang={lang} theme="github-dark" wrap />
+	</div>
+</figure>
+
+<script define:vars={{ copyRootId }}>
+	const root = document.getElementById(copyRootId);
+	const btn = root?.querySelector('.copy-btn');
+	const label = btn?.querySelector('.copy-label');
+	btn?.addEventListener('click', async () => {
+		const pre = root?.querySelector('pre');
+		const text = pre?.innerText ?? '';
+		try {
+			await navigator.clipboard.writeText(text);
+			if (label && label instanceof HTMLElement) label.textContent = 'Extracted';
+			if (btn) {
+				btn.innerHTML =
+					'<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg><span class="copy-label font-mono text-[10px] font-semibold tracking-[0.12em] uppercase">Extracted</span>';
+			}
+			btn?.setAttribute('aria-label', 'Source extracted');
+			setTimeout(() => {
+				if (btn)
+					btn.innerHTML =
+						'<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg><span class="copy-label font-mono text-[10px] font-semibold tracking-[0.12em] uppercase">Extract source</span>';
+				btn?.setAttribute('aria-label', 'Extract source — copy code');
+			}, 2000);
+		} catch {
+			/* clipboard unavailable */
+		}
+	});
+</script>

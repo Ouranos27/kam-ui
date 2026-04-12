@@ -1,0 +1,20 @@
+diff --git a/node_modules/vite/dist/node/chunks/config.js b/node_modules/vite/dist/node/chunks/config.js
+index 3b4037b..772b45c 100644
+--- a/node_modules/vite/dist/node/chunks/config.js
++++ b/node_modules/vite/dist/node/chunks/config.js
+@@ -28760,6 +28760,7 @@ var EnvironmentPluginContainer = class {
+ 				}
+ 			});
+ 			const handler = getHookHandler(plugin.load);
++			if (!handler) continue;
+ 			const result = await this.handleHookPromise(handler.call(ctx, id, options$1));
+ 			if (result != null) {
+ 				if (isObject(result)) ctx._updateModuleInfo(id, result);
+@@ -28797,6 +28798,7 @@ var EnvironmentPluginContainer = class {
+ 			const start = debugPluginTransform ? performance$1.now() : 0;
+ 			let result;
+ 			const handler = getHookHandler(plugin.transform);
++			if (!handler) continue;
+ 			try {
+ 				result = await this.handleHookPromise(handler.call(ctx, code, id, optionsWithSSR));
+ 			} catch (e$1) {

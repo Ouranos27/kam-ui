@@ -1,0 +1,44 @@
+---
+/**
+ * With `index`: editorial cover style — large mono index + display title.
+ * Without `index`: Stitch instrument pattern — small mono label + full-width hairline rule.
+ */
+interface Props {
+	title: string;
+	id?: string;
+	index?: string;
+	class?: string;
+}
+
+const { title, id, index, class: className } = Astro.props;
+---
+
+<div class:list={['scroll-m-28', className]}>
+	{
+		index ? (
+			/* Editorial cover: mono index beside display heading */
+			<div class="flex flex-wrap items-baseline gap-3 sm:gap-4">
+				<span class="kam-ds-index shrink-0" aria-hidden="true">
+					{index}
+				</span>
+				<h2
+					id={id}
+					class="font-display text-foreground m-0 text-xl font-bold tracking-tight sm:text-2xl"
+				>
+					{title}
+				</h2>
+			</div>
+		) : (
+			/* Instrument label + hairline rule — Stitch pattern */
+			<div class="flex items-center gap-4">
+				<h2
+					id={id}
+					class="m-0 shrink-0 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/60"
+				>
+					{title}
+				</h2>
+				<div class="h-px flex-1 bg-border/70" aria-hidden="true" />
+			</div>
+		)
+	}
+</div>

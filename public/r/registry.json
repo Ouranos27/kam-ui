@@ -1,0 +1,287 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "kam-ui",
+  "homepage": "https://ui.philippekam.dev",
+  "items": [
+    {
+      "name": "kam-utils",
+      "type": "registry:lib",
+      "title": "kam-ui utils",
+      "description": "cn() helper combining clsx + tailwind-merge (shadcn-style).",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0"
+      ],
+      "files": [
+        {
+          "path": "lib/utils.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "kam-containment",
+      "type": "registry:lib",
+      "title": "kam-ui containment",
+      "description": "Viewport pause + motion/hover query hooks for specimens.",
+      "dependencies": [],
+      "files": [
+        {
+          "path": "lib/containment.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "chromatic-leaks",
+      "type": "registry:component",
+      "title": "Chromatic Leaks",
+      "description": "Four animated corner radials — each leaks colour from its corner while leaving the composition centre transparent. Independent Lissajous drift and breathing per radial, with mouse-parallax follow.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/chromatic-leaks.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "halo-ring",
+      "type": "registry:component",
+      "title": "Halo Ring",
+      "description": "Animated radial ring — transparent centre, glowing colour band, transparent outer zone. The band breathes, the ring drifts, the centre follows the cursor.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/halo-ring.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "shimmer-ring",
+      "type": "registry:component",
+      "title": "Shimmer Ring",
+      "description": "WebGL shader ring — transparent centre, noise-shimmered colour band, transparent outer zone. Angle-dependent simplex noise deforms the band edges so the ring is never a perfect circle.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/shimmer-ring.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "crown-glow",
+      "type": "registry:component",
+      "title": "Crown Glow",
+      "description": "WebGL shader halo whose centre is above the visible canvas — only the lower arc shows, creating a glowing crown at the top of the composition. Two concentric rings shimmer with noise.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/crown-glow.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "chromatic-field",
+      "type": "registry:component",
+      "title": "Chromatic Field",
+      "description": "Procedural organic domain-warp field with rotating light streaks. RGB channels are sampled at offset UVs to produce chromatic aberration — lens-split colour fringing at every bright edge. Dark cinematic palette.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/chromatic-field.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "solar-flare",
+      "type": "registry:component",
+      "title": "Solar Flare",
+      "description": "Procedural WebGL sun: limb-darkened photosphere, chromosphere band, fibrous corona from radial noise sampling, activity via flareCount. Warm accent on deep space.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/solar-flare.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "radiant-veil",
+      "type": "registry:component",
+      "title": "Radiant Veil",
+      "description": "Transparent radial overlay with Lissajous drift. CSS vars + rAF — the coloured fringe moves while the centre stays clear.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/radiant-veil.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "mesh-gradient",
+      "type": "registry:component",
+      "title": "Mesh Gradient",
+      "description": "Four soft colour blobs drift on simplex-noise paths, blending like liquid paint. WebGL shader with cubic hermite falloff. Subtle film grain adds analog texture.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/mesh-gradient.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "atmospheric-sky",
+      "type": "registry:component",
+      "title": "Atmospheric Sky",
+      "description": "Procedural atmospheric sky — Rayleigh/Mie scattering, animated sun, day/night cycle with cirrus clouds, crepuscular rays, sun bloom, and twinkling stars. All analytic, no precomputed textures.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/atmospheric-sky.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "milky-way",
+      "type": "registry:component",
+      "title": "Milky Way",
+      "description": "Milky Way panorama from ESA Gaia DR2 colour data projected onto a sky dome. Procedural star overlay, slow galactic rotation. Requires public/milky-way/milky-way.jpg (~945 KB) — download from the kam-ui repo.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/milky-way.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "black-hole",
+      "type": "registry:component",
+      "title": "Black Hole",
+      "description": "Schwarzschild black hole + accretion disc (Eric Bruneton beam-tracing shader, BSD-3-Clause). Ships TS + GLSL; copy public/black-hole/*.dat from kam-ui or rebuild with github.com/ebruneton/black_hole_shader. WebGL2 float extensions + Vite ?raw imports required.",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/black-hole.tsx",
+          "type": "registry:component"
+        },
+        {
+          "path": "lib/blackHolePhysical/webgl.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "lib/blackHolePhysical/model.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "lib/blackHolePhysical/discParticleGlsl.ts",
+          "type": "registry:lib"
+        },
+        {
+          "path": "shaders/blackHolePhysicalCore.glsl",
+          "type": "registry:lib"
+        },
+        {
+          "path": "shaders/blackHolePhysicalFragment.glsl",
+          "type": "registry:lib"
+        },
+        {
+          "path": "shaders/blackHolePhysicalVertex.glsl",
+          "type": "registry:lib"
+        }
+      ]
+    }
+  ]
+}

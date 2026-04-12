@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "craft-mesh",
+  "type": "registry:component",
+  "title": "Craft Mesh",
+  "description": "Layered CSS radials + hairline rhythm (pattern-craft style) — theme tokens; optional glow pulse; no canvas.",
+  "dependencies": [
+    "clsx@^2.1.1",
+    "tailwind-merge@^3.5.0"
+  ],
+  "registryDependencies": [
+    "https://ui.philippekam.dev/r/kam-utils.json",
+    "https://ui.philippekam.dev/r/kam-containment.json"
+  ],
+  "files": [
+    {
+      "path": "components/kam/craft-mesh.tsx",
+      "type": "registry:component",
+      "content": "import { cn } from '@/lib/utils';\nimport { usePrefersReducedMotion } from '@/lib/containment';\n\nexport type CraftMeshBackdropProps = {\n\tclassName?: string;\n\t/** Subtle glow pulse when motion is allowed (respects prefers-reduced-motion). */\n\tanimate?: boolean;\n};\n\n/**\n * Stacked radial + hairline mesh (pattern-craft–style CSS gradients) using theme tokens.\n * No canvas/WebGL — safe for hero sections and documentation shells.\n */\nexport function CraftMeshBackdrop({ className, animate = true }: CraftMeshBackdropProps) {\n\tconst reduce = usePrefersReducedMotion();\n\tconst motionOk = animate && !reduce;\n\n\treturn (\n\t\t<div\n\t\t\tclassName={cn('relative h-full min-h-[200px] w-full overflow-hidden', className)}\n\t\t\taria-hidden\n\t\t>\n\t\t\t<div\n\t\t\t\tclassName=\"absolute inset-0\"\n\t\t\t\tstyle={{\n\t\t\t\t\tbackgroundColor: 'var(--background)',\n\t\t\t\t\tbackgroundImage: `\n\t\t\t\t\t\tradial-gradient(ellipse 125% 90% at 50% 108%, color-mix(in oklch, var(--brand) 28%, transparent), transparent 55%),\n\t\t\t\t\t\tradial-gradient(ellipse 80% 55% at 50% -5%, color-mix(in oklch, var(--foreground) 10%, transparent), transparent 48%),\n\t\t\t\t\t\trepeating-linear-gradient(\n\t\t\t\t\t\t\t0deg,\n\t\t\t\t\t\t\ttransparent,\n\t\t\t\t\t\t\ttransparent 44px,\n\t\t\t\t\t\t\tcolor-mix(in oklch, var(--foreground) 2.8%, transparent) 44px,\n\t\t\t\t\t\t\ttransparent 45px\n\t\t\t\t\t\t)\n\t\t\t\t\t`,\n\t\t\t\t\tbackgroundSize: '100% 100%, 100% 100%, 100% 100%',\n\t\t\t\t}}\n\t\t\t/>\n\t\t\t<div\n\t\t\t\tclassName={cn(\n\t\t\t\t\t'pointer-events-none absolute inset-0 mix-blend-screen opacity-90',\n\t\t\t\t\tmotionOk && 'kam-craft-breathe',\n\t\t\t\t)}\n\t\t\t\tstyle={{\n\t\t\t\t\tbackgroundImage: `\n\t\t\t\t\t\tradial-gradient(ellipse 70% 50% at 20% 30%, color-mix(in oklch, var(--brand) 22%, transparent), transparent 60%),\n\t\t\t\t\t\tradial-gradient(ellipse 60% 45% at 85% 70%, color-mix(in oklch, var(--foreground) 8%, transparent), transparent 55%)\n\t\t\t\t\t`,\n\t\t\t\t}}\n\t\t\t/>\n\t\t</div>\n\t);\n}\n"
+    }
+  ]
+}

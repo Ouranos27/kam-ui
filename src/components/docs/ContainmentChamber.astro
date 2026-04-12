@@ -1,0 +1,35 @@
+---
+import { TelemetryReadout } from '../react/TelemetryReadout';
+
+interface Props {
+	/** Shown in the preview strip */
+	previewLabel: string;
+	surface: 'dark' | 'light';
+	/** Light well only; grid is optional (default solid) */
+	wellStyle?: 'grid' | 'solid';
+	class?: string;
+}
+
+const { previewLabel, surface, wellStyle = 'solid', class: className } = Astro.props;
+
+const wellClass =
+	surface === 'dark'
+		? 'bg-[var(--kam-chamber-dark)] text-zinc-100'
+		: wellStyle === 'grid'
+			? 'kam-chamber-grid text-foreground'
+			: 'bg-background text-foreground';
+---
+
+<div
+	class:list={[
+		'relative isolate flex flex-col overflow-hidden rounded-lg border border-border bg-background',
+		className,
+	]}
+	data-chamber-surface={surface}
+>
+	<TelemetryReadout client:visible previewLabel={previewLabel} />
+
+	<div class:list={['min-h-0 min-w-0 flex-1', wellClass]}>
+		<slot />
+	</div>
+</div>
