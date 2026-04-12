@@ -1,0 +1,231 @@
+---
+import { codeToHtml } from 'shiki';
+
+import DocsLayout from '../../layouts/DocsLayout.astro';
+import TocSidebar from '../../components/docs/TocSidebar.astro';
+import { SpecimenWorkspace } from '../../components/react/SpecimenWorkspace';
+import { LivePlayground } from '../../components/react/LivePlayground';
+import { COMPONENT_CATEGORY_LABELS, getComponentBySlug, getComponentNeighbors } from '../../data/nav';
+import { componentPropDocs } from '../../data/componentPropDocs';
+import { componentRegistry, type ComponentSlug } from '../../data/componentRegistry';
+import { componentUsageExamples } from '../../data/componentUsage';
+import { getShowcasePresentation } from '../../data/showcasePresentation';
+
+/** Derive paths from `componentRegistry` so new slugs always match the code tab + JSON registry. */
+export function getStaticPaths() {
+	return (Object.keys(componentRegistry) as ComponentSlug[]).map((slug) => {
+		if (!getComponentBySlug(slug)) {
+			throw new Error(
+				`[slug].astro: componentRegistry has "${slug}" but componentNav has no matching entry.`,
+			);
+		}
+		return { params: { slug } };
+	});
+}
+
+const { slug } = Astro.params;
+const item = getComponentBySlug(slug!);
+if (!item) {
+	throw new Error(`Unknown component slug: ${slug}`);
+}
+
+const key = slug as ComponentSlug;
+const { source, filename } = componentRegistry[key];
+const usageExample = componentUsageExamples[key];
+const { prev, next } = getComponentNeighbors(slug!);
+const chamberSurface = item.chamberSurface ?? 'light';
+const chamberWellStyle = item.chamberWellStyle ?? 'solid';
+const specimenCode = item.specimenCode ?? 'SPECIMEN-00';
+const specimenEngine = item.specimenEngine ?? 'Canvas 2D';
+
+const showcase = getShowcasePresentation(key);
+const categoryLabel = item.category ? COMPONENT_CATEGORY_LABELS[item.category] : undefined;
+/** Full-width preview stage (react-bits `.demo-container`); per-slug overrides in `showcasePresentation`. */
+const previewWrapClass = showcase.previewWrapClassName ?? 'w-full';
+
+const basePackages = ['react', 'tailwindcss', 'clsx', 'tailwind-merge'];
+const depPackages = [...basePackages, ...(item.dependencyPackages ?? [])];
+const installDepTokens = [
+	'clsx',
+	'tailwind-merge',
+	...(item.dependencyPackages ?? []).filter((p) => !p.toLowerCase().includes('kam-containment')),
+];
+const depsPkgsForPm = installDepTokens.join(' ');
+
+const origin = import.meta.env.DEV ? Astro.url.origin : (Astro.site?.origin ?? 'https://ui.philippekam.dev');
+const itemJsonUrl = `${origin}/r/${key}.json`;
+const shadcnAddCommand = `npx shadcn@latest add ${itemJsonUrl}`;
+
+const highlightedHtml = await codeToHtml(source, {
+	lang: 'tsx',
+	theme: 'one-dark-pro',
+});
+
+const highlightedUsageHtml = await codeToHtml(usageExample ?? '', {
+	lang: 'tsx',
+	theme: 'one-dark-pro',
+});
+
+const depNote =
+	"Components import `@/lib/utils` for `cn()`. Point `@` at your `src` folder (this repo sets it in `tsconfig.json` and `astro.config.mjs`). Some items also need `kam-containment` from the registry (`lib/containment.ts`) for viewport pause + motion queries. The shadcn installer adds `kam-utils` (and containment when listed) via registryDependencies when you use the commands above.";
+---
+
+<DocsLayout
+	title={item.title}
+	description={`${item.title} — interactive React component from the kam-ui registry.`}
+	wide
+	variant="rb-docs"
+	tocEditPath="src/pages/components/[slug].astro"
+>
+	{item.category === 'backgrounds' && (
+		<section
+			slot="hero"
+			aria-label={`${item.title} live preview`}
+			class:list={[
+				'relative w-full overflow-hidden h-[100dvh] lg:h-[calc(100dvh-3.5rem)]',
+				chamberSurface === 'dark' ? 'bg-zinc-950' : 'bg-white',
+			]}
+		>
+			{/*
+				LivePlayground: animated component + floating label + controls panel.
+				The label and controls are managed in React so the label can shift up
+				when the controls panel is open.
+			*/}
+			<LivePlayground
+				slug={key}
+				title={item.title}
+				specimenCode={specimenCode}
+				categoryLabel={categoryLabel ?? ''}
+				specimenEngine={specimenEngine}
+				chamberSurface={chamberSurface}
+				client:load
+			/>
+		</section>
+	)}
+
+	<TocSidebar
+		slot="toc"
+		editPath="src/pages/components/[slug].astro"
+		items={item.category === 'backgrounds' ? [
+			{ href: '#procedure', label: 'Procedure' },
+			{ href: '#props', label: 'Props' },
+			{ href: '#dependencies', label: 'Dependencies' },
+			{ href: '#usage', label: 'Usage' },
+			{ href: '#source', label: 'Source' },
+		] : [
+			{ href: '#showcase', label: 'Showcase' },
+			{ href: '#props', label: 'Props' },
+			{ href: '#dependencies', label: 'Dependencies' },
+			{ href: '#procedure', label: 'Procedure' },
+			{ href: '#usage', label: 'Usage' },
+			{ href: '#source', label: 'Source' },
+		]}
+	/>
+
+	<!-- Title block — hidden for backgrounds (hero already carries the title) -->
+	{item.category !== 'backgrounds' && (
+		<div class="mb-8 scroll-mt-24 md:mb-12">
+			<h1
+				class="text-foreground font-sans m-0 text-4xl tracking-tight sm:text-5xl md:text-6xl"
+				style="letter-spacing: -0.04em; line-height: 1.05;"
+			>
+				{item.title}
+			</h1>
+			<p class="text-muted-foreground mt-3 font-mono text-[10px] font-semibold tracking-[0.2em] uppercase">
+				{specimenEngine}
+			</p>
+		</div>
+	)}
+
+	<nav class="border-border mb-8 border-b pb-6 xl:hidden" aria-label="On this page">
+		<p
+			class="mb-3 text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+			style="font-family: var(--font-label, var(--font-mono))"
+		>
+			NAVIGATE
+		</p>
+		<ul class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:flex sm:flex-wrap sm:gap-x-4 sm:gap-y-1 list-none p-0 m-0">
+			{(item.category === 'backgrounds'
+				? ['procedure', 'props', 'dependencies', 'usage', 'source']
+				: ['showcase', 'props', 'dependencies', 'procedure', 'usage', 'source']
+			).map((id) => (
+				<li>
+					<a href={`#${id}`} class="kam-link font-mono text-xs font-semibold uppercase tracking-wide">{id}</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+
+	<div id="showcase" data-slot="component-preview" class="mt-5 mb-20 scroll-mt-28">
+		<SpecimenWorkspace
+			client:visible
+			slug={key}
+			propDocs={componentPropDocs[key]}
+			source={source}
+			filename={filename}
+			usageExample={usageExample}
+			shadcnAddCommand={shadcnAddCommand}
+			previewWrapClassName={previewWrapClass}
+			specimenCode={specimenCode}
+			chamberSurface={chamberSurface}
+			chamberWellStyle={chamberWellStyle}
+			itemJsonUrl={itemJsonUrl}
+			depsPkgsForPm={depsPkgsForPm}
+			depPackages={depPackages}
+			depNote={depNote}
+			highlightedHtml={highlightedHtml}
+			highlightedUsageHtml={highlightedUsageHtml}
+			specimenTitle={item.title}
+			showcase={showcase}
+			showPreview={item.category !== 'backgrounds'}
+		/>
+	</div>
+
+	<nav class="mt-16 grid grid-cols-1 gap-px bg-border sm:grid-cols-2" aria-label="Adjacent components">
+		<div class="bg-background min-w-0">
+			{
+				prev ? (
+					<a href={prev.href} class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full">
+						<span
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+							style="font-family: var(--font-label, var(--font-mono))"
+						>← Previous</span>
+						<span class="text-foreground group-hover:text-brand font-display text-base font-bold tracking-tight transition-colors duration-200">{prev.title}</span>
+					</a>
+				) : (
+					<a href="/" class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full">
+						<span
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+							style="font-family: var(--font-label, var(--font-mono))"
+						>← Return</span>
+						<span class="text-foreground group-hover:text-brand font-display text-base font-bold tracking-tight transition-colors duration-200">All components</span>
+					</a>
+				)
+			}
+		</div>
+		<div class="bg-background min-w-0 sm:text-right">
+			{
+				next ? (
+					<a
+						href={next.href}
+						class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full sm:flex sm:flex-col sm:items-end"
+					>
+						<span
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+							style="font-family: var(--font-label, var(--font-mono))"
+						>Next →</span>
+						<span class="text-foreground group-hover:text-brand font-display text-base font-bold tracking-tight transition-colors duration-200">{next.title}</span>
+					</a>
+				) : (
+					<a href="/" class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full sm:flex sm:flex-col sm:items-end">
+						<span
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+							style="font-family: var(--font-label, var(--font-mono))"
+						>Console →</span>
+						<span class="text-foreground group-hover:text-brand font-display text-base font-bold tracking-tight transition-colors duration-200">Landing Page</span>
+					</a>
+				)
+			}
+		</div>
+	</nav>
+</DocsLayout>
