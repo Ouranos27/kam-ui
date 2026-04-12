@@ -1,0 +1,220 @@
+---
+import { componentNavGrouped, mainNav } from '../../data/nav';
+
+interface Props {
+	currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+function isActive(href: string) {
+	if (href === '/') return currentPath === '/';
+	return currentPath === href || currentPath.startsWith(`${href}/`);
+}
+
+const linkBase =
+	'group flex min-h-11 cursor-pointer items-center gap-2.5 pl-3 pr-2.5 py-2 text-[11px] font-medium transition-colors duration-200 lg:min-h-0 lg:py-1.5 tracking-[0.04em]';
+const linkIdle =
+	'text-muted-foreground hover:text-foreground';
+const linkActive =
+	'text-foreground';
+---
+
+<!-- Desktop: fixed-width sticky column. Mobile: full-width top bar. -->
+<aside
+	class="border-sidebar-border bg-sidebar text-sidebar-foreground no-scrollbar w-full shrink-0 border-b shadow-none lg:sticky lg:top-0 lg:flex lg:h-dvh lg:w-(--kam-sidebar-w) lg:flex-col lg:overflow-y-auto lg:border-b-0 lg:border-r"
+	style="--kam-sidebar-w: 17rem"
+>
+	<!-- Brand + controls row -->
+	<div class="flex items-center justify-between gap-2 px-4 py-4 lg:px-5 lg:py-7 lg:shrink-0">
+		<a href="/" class="group block min-w-0 flex-1">
+			<span
+				class="font-display text-sidebar-foreground group-hover:text-brand text-xl font-black tracking-[-0.04em] transition-colors duration-200"
+			>
+				KAM<span class="text-brand">—UI</span>
+			</span>
+			<span
+				class="text-muted-foreground mt-0.5 block text-[9px] font-semibold tracking-[0.2em] uppercase transition-colors duration-200"
+				style="font-family: var(--font-label, var(--font-mono))"
+			>
+				Designer registry · React + Tailwind
+			</span>
+		</a>
+		<div class="flex shrink-0 items-center gap-2">
+			<label class="sr-only" for="kam-theme">Appearance</label>
+			<select
+				id="kam-theme"
+				class="border-sidebar-border bg-sidebar/60 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-ring h-9 max-w-29 cursor-pointer rounded-none border px-2 font-mono text-[10px] font-semibold tracking-wide uppercase shadow-none transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none dark:bg-sidebar/40"
+			>
+				<option value="light">Light</option>
+				<option value="dark">Dark</option>
+				<option value="system">System</option>
+			</select>
+			<details id="kam-mobile-nav" class="lg:hidden">
+			<summary
+				class="border-sidebar-border text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-none border transition-colors [&::-webkit-details-marker]:hidden"
+				aria-expanded="false"
+				aria-controls="kam-mobile-nav-panel"
+				aria-label="Open menu"
+			>
+				<svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 6h16M4 12h16M4 18h16"></path>
+				</svg>
+			</summary>
+			<nav
+				id="kam-mobile-nav-panel"
+				class="border-sidebar-border mt-4 flex flex-col gap-8 border-t pt-4"
+				aria-label="Mobile"
+			>
+				<div>
+					<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Docs</p>
+					<ul class="flex flex-col gap-0.5">
+						{
+							mainNav.map((item) => (
+								<li>
+									<a
+										href={item.href}
+										target={item.openInNewTab ? '_blank' : undefined}
+										rel={item.openInNewTab ? 'noopener noreferrer' : undefined}
+										class:list={[linkBase, isActive(item.href) ? linkActive : linkIdle]}
+									>
+										{item.title}
+										{item.openInNewTab && <span class="sr-only"> (opens in new tab)</span>}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</div>
+				<div>
+					<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Components</p>
+					<div class="flex flex-col gap-4">
+						{
+							componentNavGrouped.map((group) => (
+								<div>
+									<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">{group.label}</p>
+									{group.items.length > 0 ? (
+										<ul class="flex flex-col gap-0.5">
+											{group.items.map((item) => (
+												<li>
+													<a
+														href={item.href}
+														class:list={[linkBase, isActive(item.href) ? linkActive : linkIdle]}
+													>
+														{item.title}
+													</a>
+												</li>
+											))}
+										</ul>
+									) : (
+										<p class="text-muted-foreground/85 px-3 py-1.5 font-mono text-[10px] leading-snug">
+											{group.emptyHint ?? '—'}
+										</p>
+									)}
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</nav>
+		</details>
+		</div>
+	</div>
+
+	<!-- Desktop navigation — fills remaining height, scrollable -->
+	<nav class="hidden flex-1 overflow-y-auto px-3 pb-4 lg:block" aria-label="Docs">
+		<!-- Docs section -->
+		<div class="mb-6">
+			<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Docs</p>
+			<ul class="flex flex-col gap-0.5">
+				{
+					mainNav.map((item) => (
+						<li>
+							<a
+								href={item.href}
+								target={item.openInNewTab ? '_blank' : undefined}
+								rel={item.openInNewTab ? 'noopener noreferrer' : undefined}
+								class:list={[linkBase, isActive(item.href) ? linkActive : linkIdle]}
+							>
+								{item.title}
+								{item.openInNewTab && <span class="sr-only"> (opens in new tab)</span>}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+
+		<!-- Components (grouped catalog) -->
+		<div>
+			<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Components</p>
+			<div class="flex flex-col gap-4">
+				{
+					componentNavGrouped.map((group) => (
+						<div>
+							<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">{group.label}</p>
+							{group.items.length > 0 ? (
+								<ul class="flex flex-col gap-0.5">
+									{group.items.map((item) => (
+										<li>
+											<a href={item.href} class:list={[linkBase, isActive(item.href) ? linkActive : linkIdle]}>
+												{item.title}
+											</a>
+										</li>
+									))}
+								</ul>
+							) : (
+								<p class="text-muted-foreground/85 px-3 py-1.5 font-mono text-[10px] leading-snug">
+									{group.emptyHint ?? '—'}
+								</p>
+							)}
+						</div>
+					))
+				}
+			</div>
+		</div>
+	</nav>
+
+	<!-- GitHub link — desktop only, pinned to bottom -->
+	<div class="hidden lg:block shrink-0 border-t border-border/60 px-5 py-4">
+		<a
+			href="https://github.com/Ouranos27/kam-ui"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="w-full flex items-center gap-2 text-left font-mono text-[9px] uppercase tracking-[0.18em] text-muted-foreground/60 transition-colors duration-200 hover:text-muted-foreground cursor-pointer no-underline"
+		>
+			<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+				<path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+			</svg>
+			<span>GitHub</span>
+			<svg class="ml-auto size-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17 17 7M7 7h10v10" />
+			</svg>
+		</a>
+	</div>
+</aside>
+
+<script is:inline>
+	(() => {
+		const det = document.getElementById('kam-mobile-nav');
+		const sum = det?.querySelector('summary');
+		if (!det || !sum || !(sum instanceof HTMLElement)) return;
+		const sync = () => {
+			const open = det.open;
+			sum.setAttribute('aria-expanded', open ? 'true' : 'false');
+			sum.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+		};
+		det.addEventListener('toggle', sync);
+		sync();
+		det.addEventListener('click', (e) => {
+			const t = e.target;
+			if (!(t instanceof Element)) return;
+			const a = t.closest('a');
+			if (a && det.contains(a)) det.open = false;
+		});
+	})();
+</script>
