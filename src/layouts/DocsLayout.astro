@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import Sidebar from '../components/docs/Sidebar.astro';
 import TocSidebar from '../components/docs/TocSidebar.astro';
-import { ShellBlueprintBackground } from '../components/react/ShellBlueprintBackground';
 
 interface Props {
 	title: string;
@@ -29,7 +28,6 @@ const contentRowClass =
 	variant === 'rb-docs'
 		? 'mx-auto flex w-full min-w-0 flex-1 flex-col gap-12 px-4 py-8 md:gap-16 md:px-8 md:py-12 lg:gap-20 lg:pt-14 lg:pb-16'
 		: 'mx-auto flex w-full min-w-0 flex-1 flex-col gap-10 px-4 py-8 md:px-8 lg:py-12';
-const footerMax = outerMax;
 const fullTitle = title === 'kam-ui' ? title : `${title} · kam-ui`;
 ---
 
@@ -74,24 +72,9 @@ const fullTitle = title === 'kam-ui' ? title : `${title} · kam-ui`;
 			<Sidebar currentPath={Astro.url.pathname} />
 
 			<!-- Main column — sits to the right of the sidebar -->
-			<div class="kam-shell-stage--live-blueprint relative flex min-h-dvh min-w-0 flex-1 flex-col bg-background">
-				<ShellBlueprintBackground client:visible />
-
-				<!-- Sticky content-header bar (desktop only) -->
-				<header
-					class="border-border bg-background relative z-10 hidden shrink-0 items-center justify-between gap-4 border-b px-6 py-3 lg:sticky lg:top-0 lg:z-40 lg:flex"
-					aria-label="Page context"
-				>
-					<div
-						class="flex items-center gap-0 font-mono text-[9px] uppercase tracking-[0.22em] text-muted-foreground"
-					>
-						<a href="/" class="hover:text-foreground transition-colors duration-200">KAM-UI</a>
-						<span class="mx-2 opacity-25" aria-hidden="true">/</span>
-						<span class="text-foreground/80">{title.toUpperCase()}</span>
-					</div>
-					<span class="font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground/60"
-						>V0.1-BETA</span
-					>
+			<div class="relative flex min-h-dvh min-w-0 flex-1 flex-col bg-background">
+				<header class="border-b border-border px-4 py-3 md:px-8">
+					<p class="font-mono text-xs text-muted-foreground">{title}</p>
 				</header>
 
 				<!-- Page content -->
@@ -124,43 +107,11 @@ const fullTitle = title === 'kam-ui' ? title : `${title} · kam-ui`;
 					</div>
 				</main>
 
-				<footer
-					class="border-border/60 text-muted-foreground relative z-10 mt-auto shrink-0 border-t px-4 py-6 text-sm md:px-6"
-				>
-					<div
-						class:list={[
-							'mx-auto flex w-full flex-col gap-2 sm:flex-row sm:items-center sm:justify-between',
-							footerMax,
-						]}
-					>
-						<span>
-							Built with{' '}
-							<a href="https://astro.build/" class="kam-link">Astro</a>
-							{' · '}
-							<a href="https://ui.shadcn.com/docs/registry" class="kam-link">shadcn registry</a>
-						</span>
-						<a
-							href="/r/registry.json"
-							class="kam-link inline-flex items-center gap-1"
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							registry.json
-							<span class="sr-only"> (opens in new tab)</span>
-							<svg
-								class="text-muted-foreground size-3.5 shrink-0 opacity-80"
-								viewBox="0 0 24 24"
-								fill="none"
-								stroke="currentColor"
-								aria-hidden="true"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									d="M7 17 17 7M7 7h10v10"></path>
-							</svg>
-						</a>
+				<footer class="border-t border-border px-4 py-6 md:px-8">
+					<div class="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+						<a href="https://github.com/Ouranos27/kam-ui" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">GitHub</a>
+						<a href="/r/registry.json" target="_blank" rel="noopener noreferrer" class="hover:text-foreground transition-colors">Registry JSON</a>
+						<span>MIT License</span>
 					</div>
 				</footer>
 			</div>

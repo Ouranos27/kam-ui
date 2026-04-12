@@ -1,0 +1,99 @@
+---
+export interface TocItem {
+	href: string;
+	label: string;
+	/** 1 = indented (e.g. h3 under h2) */
+	depth?: 0 | 1;
+}
+
+interface Props {
+	items?: TocItem[];
+	/** Repo-relative path for “Edit this page”, e.g. `src/pages/components/[slug].astro` */
+	editPath?: string;
+}
+
+const { items = [] } = Astro.props;
+---
+
+<div
+	class="kam-doc-toc text-muted-foreground sticky top-[calc(env(safe-area-inset-top,0px)+3.5rem)] max-h-[calc(100svh-env(safe-area-inset-top,0px)-4rem)] space-y-8 overflow-y-auto overscroll-contain pr-1 text-sm [scrollbar-gutter:stable]"
+>
+	{
+		items.length > 0 && (
+			<nav aria-label="On this page" data-kam-toc class="kam-rail-card">
+				<p class="text-foreground/40 mb-4 font-mono text-[9px] font-bold tracking-[0.22em] uppercase">
+					Navigate
+				</p>
+				<!-- Vertical indicator line with sliding dot -->
+				<div class="relative pl-5">
+					<div
+						class="absolute left-0 top-0 bottom-0 w-px bg-border/60"
+						aria-hidden="true"
+					/>
+					<ul class="flex flex-col gap-3">
+						{items.map(({ href, label, depth = 0 }) => (
+							<li class={depth === 1 ? 'pl-3' : undefined}>
+								<a
+									href={href}
+									class="kam-toc-link"
+									data-toc-link
+								>
+									{label}
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</nav>
+		)
+	}
+
+</div>
+
+<script>
+	function headingTop(el: Element) {
+		const r = el.getBoundingClientRect();
+		return r.top + window.scrollY;
+	}
+
+	function initTocSpy(root: HTMLElement) {
+		const links = [...root.querySelectorAll<HTMLAnchorElement>('a[data-toc-link][href^="#"]')];
+		if (!links.length) return;
+		const ids = links.map((a) => a.getAttribute('href')!.slice(1));
+
+		function paint(activeId: string | null) {
+			for (const a of links) {
+				const id = a.getAttribute('href')!.slice(1);
+				const on = id === activeId;
+				if (on) a.setAttribute('aria-current', 'location');
+				else a.removeAttribute('aria-current');
+				a.classList.toggle('text-foreground', on);
+				a.classList.toggle('font-medium', on);
+				a.classList.toggle('text-muted-foreground', !on);
+			}
+		}
+
+		function tick() {
+			const offset = Math.min(140, window.innerHeight * 0.18);
+			let active: string | null = null;
+			for (const id of ids) {
+				const el = document.getElementById(id);
+				if (!el) continue;
+				if (headingTop(el) <= window.scrollY + offset) active = id;
+			}
+			if (!active && ids.length) active = ids[0];
+			paint(active);
+		}
+
+		tick();
+		window.addEventListener('scroll', tick, { passive: true });
+		window.addEventListener('resize', tick, { passive: true });
+	}
+
+	function run() {
+		document.querySelectorAll<HTMLElement>('[data-kam-toc]').forEach(initTocSpy);
+	}
+
+	if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run);
+	else run();
+</script>
