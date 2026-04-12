@@ -19,7 +19,9 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content="https://ui.philippekam.dev" />
+		<meta property="og:image" content="https://ui.philippekam.dev/og.png" />
 		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:image" content="https://ui.philippekam.dev/og.png" />
 		<meta name="twitter:title" content="kam-ui · Motion registry" />
 		<meta name="twitter:description" content={description} />
 		<link
@@ -38,7 +40,7 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 		<nav id="kam-nav" class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-black/50 backdrop-blur-md transition-colors duration-300">
 			<div class="mx-auto flex max-w-[1280px] items-center justify-between px-6 py-4">
 				<a href="/" class="font-sans text-xl text-white tracking-tight">kam—ui</a>
-				<div class="flex items-center gap-6">
+				<div class="flex items-center gap-4 sm:gap-6">
 					<a href={firstComponentHref} class="text-sm text-white/60 hover:text-white transition-colors" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;">Components</a>
 					<a href="/design-system" class="text-sm text-white/60 hover:text-white transition-colors" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;">Docs</a>
 					<a href="https://github.com/Ouranos27/kam-ui" target="_blank" rel="noopener noreferrer" class="text-white/60 hover:text-white transition-colors" aria-label="GitHub">
@@ -53,13 +55,13 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 			<section class="relative h-dvh w-full overflow-hidden">
 				<MilkyWay client:visible brightness={1.2} speed={0.38} className="absolute inset-0" />
 				<div class="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
-					<h1 class="animate-fade-up font-sans text-5xl md:text-7xl text-white tracking-tight" style="font-style: italic;">Animated backgrounds<br/>for React</h1>
+					<h1 class="animate-fade-up font-sans text-4xl sm:text-5xl md:text-7xl text-white tracking-tight" style="font-style: italic;">Animated backgrounds<br/>for React</h1>
 					<p class="animate-fade-up animate-fade-up-d1 mt-6 max-w-md text-lg text-white/60" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;">
 						WebGL and CSS components. Install via shadcn CLI.
 					</p>
 					<div class="animate-fade-up animate-fade-up-d2 mt-10 flex flex-col sm:flex-row items-center gap-4">
-						<div class="group/install flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 px-4 py-2.5 transition-all duration-200 ease-out hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]">
-							<code class="font-mono text-sm text-white/80">npx shadcn@latest add https://ui.philippekam.dev/r/milky-way.json</code>
+						<div class="group/install flex max-w-full items-center gap-2 overflow-x-auto bg-white/10 backdrop-blur-sm border border-white/10 hover:border-white/20 px-4 py-2.5 transition-all duration-200 ease-out hover:shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+							<code class="shrink-0 font-mono text-xs sm:text-sm text-white/80">npx shadcn@latest add https://ui.philippekam.dev/r/milky-way.json</code>
 							<button id="copy-install-btn" data-install-cmd="npx shadcn@latest add https://ui.philippekam.dev/r/milky-way.json" class="text-white/50 hover:text-white transition-colors cursor-pointer" aria-label="Copy install command">
 								<svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
 							</button>
@@ -97,8 +99,8 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 
 			<!-- Install block -->
 			<section class="px-6 pb-12">
-				<div class="mx-auto max-w-[1280px] border border-border p-6">
-					<code class="block font-mono text-sm text-muted-foreground">npx shadcn@latest add https://ui.philippekam.dev/r/&lt;component&gt;.json</code>
+				<div class="mx-auto max-w-[1280px] overflow-x-auto border border-border p-6">
+					<code class="block font-mono text-xs sm:text-sm text-muted-foreground whitespace-nowrap">npx shadcn@latest add https://ui.philippekam.dev/r/&lt;component&gt;.json</code>
 					<p class="mt-2 text-sm text-muted-foreground" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;">Or copy source from any component page.</p>
 				</div>
 			</section>

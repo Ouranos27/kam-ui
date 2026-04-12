@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ui.philippekam.dev/sitemap-index.xml

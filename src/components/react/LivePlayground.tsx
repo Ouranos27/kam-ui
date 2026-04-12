@@ -78,7 +78,7 @@ export function LivePlayground({
 			{/* ── Floating label — shifts up when controls are open ── */}
 			<div
 				className={cn(
-					'pointer-events-none absolute left-8 flex flex-col gap-1 transition-[bottom] duration-300 ease-out lg:left-12',
+					'pointer-events-none absolute left-4 flex flex-col gap-1 transition-[bottom] duration-300 ease-out sm:left-8 lg:left-12',
 					controlsOpen ? 'bottom-30' : 'bottom-10',
 					isDark ? 'text-white/85' : 'text-zinc-900/85'
 				)}

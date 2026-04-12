@@ -44,7 +44,9 @@ const fullTitle = title === 'kam-ui' ? title : `${title} · kam-ui`;
 		{description && <meta property="og:description" content={description} />}
 		<meta property="og:type" content="website" />
 		<meta property="og:url" content={`https://ui.philippekam.dev${Astro.url.pathname}`} />
-		<meta name="twitter:card" content="summary" />
+		<meta property="og:image" content="https://ui.philippekam.dev/og.png" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:image" content="https://ui.philippekam.dev/og.png" />
 		<meta name="twitter:title" content={fullTitle} />
 		{description && <meta name="twitter:description" content={description} />}
 		<link

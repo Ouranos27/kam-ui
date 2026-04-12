@@ -442,7 +442,7 @@ export function ComponentControls({
 
 					<div
 						className={cn(
-							'flex items-center justify-between gap-3 border-b px-4 py-2',
+							'flex flex-col gap-1.5 border-b px-4 py-2 sm:flex-row sm:items-center sm:justify-between sm:gap-3',
 							isDark ? 'border-white/8' : 'border-zinc-200/60'
 						)}
 					>
@@ -474,7 +474,7 @@ export function ComponentControls({
 						</label>
 						<p
 							className={cn(
-								'text-right font-mono text-[9px] tracking-[0.08em]',
+								'font-mono text-[9px] tracking-[0.08em] sm:text-right',
 								isDark ? 'text-white/45' : 'text-zinc-500'
 							)}
 						>

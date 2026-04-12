@@ -38,10 +38,9 @@ pnpm-debug.log*
 vendor/black-hole-shader/
 vendor/precomputed_atmospheric_scattering/
 
-# Repo-root docs: ignore bucket but keep tracked specs (Tailwind does not read this folder).
-/docs/*
-!/docs/DESIGN_SYSTEM.md
-!/docs/prd.md
+docs/*
+docs/DESIGN_SYSTEM.md
+docs/prd.md
 
 .playwright-mcp/
 

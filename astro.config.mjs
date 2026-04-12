@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import { fileURLToPath } from 'node:url';
 
 import react from '@astrojs/react';
+import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 const srcDir = fileURLToPath(new URL('./src', import.meta.url));
@@ -10,7 +11,7 @@ const srcDir = fileURLToPath(new URL('./src', import.meta.url));
 // https://astro.build/config
 export default defineConfig({
   site: 'https://ui.philippekam.dev',
-  integrations: [react()],
+  integrations: [react(), sitemap()],
 
   vite: {
     // Tailwind v4: factory returns Plugin[] — Vite flattens one level (see Tailwind + Astro docs).
