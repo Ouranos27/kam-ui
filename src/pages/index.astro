@@ -75,10 +75,20 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 					<p class="mb-12 text-sm text-muted-foreground" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;">{componentNav.length} components &middot; shadcn registry &middot; MIT</p>
 					<div class="grid gap-px sm:grid-cols-2 lg:grid-cols-3 bg-[#111]">
 						{componentNav.map((c) => (
-							<a href={c.href} class="group flex flex-col gap-2 p-6 bg-background transition-all duration-200 ease-out hover:bg-card cursor-pointer border-l-2 border-l-transparent hover:border-l-white/60">
-								<span class="font-sans text-xl tracking-tight text-muted-foreground group-hover:text-white transition-colors duration-200">{c.title}</span>
-								<span class="hidden sm:block text-sm text-muted-foreground line-clamp-2 group-hover:text-foreground/70 transition-colors duration-200" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;">{c.description}</span>
-								<span class="mt-auto pt-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{c.specimenEngine || 'CSS'}</span>
+							<a href={c.href} class="group flex flex-col bg-background transition-all duration-200 ease-out hover:bg-card cursor-pointer overflow-hidden">
+								<div class="relative aspect-[16/10] overflow-hidden">
+									<img
+										src={`/previews/${c.slug}.jpg`}
+										alt={`${c.title} preview`}
+										class="h-full w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+										loading="lazy"
+									/>
+									<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+									<span class="absolute bottom-3 left-4 font-sans text-lg tracking-tight text-white drop-shadow-sm">{c.title}</span>
+								</div>
+								<div class="flex items-center justify-between px-4 py-3">
+									<span class="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{c.specimenEngine || 'CSS'}</span>
+								</div>
 							</a>
 						))}
 					</div>
