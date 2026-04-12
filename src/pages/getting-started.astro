@@ -1,0 +1,160 @@
+---
+import DocsLayout from '../layouts/DocsLayout.astro';
+import TocSidebar from '../components/docs/TocSidebar.astro';
+import { componentNav, firstComponentHref } from '../data/nav';
+
+const firstSlug = componentNav[0]?.slug ?? 'radiant-veil';
+const origin = 'https://ui.philippekam.dev';
+---
+
+<DocsLayout
+	title="Getting Started"
+	description="Install animated background components for React via the shadcn CLI."
+	tocEditPath="src/pages/getting-started.astro"
+>
+	<TocSidebar
+		slot="toc"
+		editPath="src/pages/getting-started.astro"
+		items={[
+			{ label: 'Prerequisites', href: '#prerequisites' },
+			{ label: 'Install a component', href: '#install' },
+			{ label: 'Manual install', href: '#manual' },
+			{ label: 'Usage', href: '#usage' },
+			{ label: 'Assets', href: '#assets' },
+		]}
+	/>
+
+	<article>
+		<h1 class="font-sans text-4xl tracking-tight mb-4">Getting Started</h1>
+		<p class="text-muted-foreground text-base leading-relaxed max-w-2xl mb-16">
+			kam-ui is a registry of animated background components for React.
+			Install via the shadcn CLI or copy the source directly.
+		</p>
+
+		<!-- Prerequisites -->
+		<section id="prerequisites" class="scroll-mt-28 mb-16">
+			<h2 class="font-sans text-2xl tracking-tight mb-6">Prerequisites</h2>
+			<p class="text-muted-foreground text-base leading-relaxed max-w-2xl mb-6">
+				Your project needs React, Tailwind CSS v4, and a shadcn-compatible setup.
+			</p>
+			<div class="flex flex-col gap-3 max-w-lg">
+				<div class="flex items-center justify-between border border-border/40 bg-card px-4 py-3">
+					<span class="text-foreground/80 text-sm">React</span>
+					<span class="font-mono text-xs text-muted-foreground">19+</span>
+				</div>
+				<div class="flex items-center justify-between border border-border/40 bg-card px-4 py-3">
+					<span class="text-foreground/80 text-sm">Tailwind CSS</span>
+					<span class="font-mono text-xs text-muted-foreground">v4</span>
+				</div>
+				<div class="flex items-center justify-between border border-border/40 bg-card px-4 py-3">
+					<span class="text-foreground/80 text-sm">shadcn/ui</span>
+					<span class="font-mono text-xs text-muted-foreground">latest</span>
+				</div>
+			</div>
+			<p class="text-muted-foreground text-sm leading-relaxed max-w-2xl mt-4">
+				Some components use <a href="https://github.com/oframe/ogl" target="_blank" rel="noopener noreferrer" class="kam-link">ogl</a> for WebGL rendering. The shadcn installer handles this dependency automatically.
+			</p>
+		</section>
+
+		<!-- Install a component -->
+		<section id="install" class="scroll-mt-28 border-t border-border/30 pt-12 mb-16">
+			<h2 class="font-sans text-2xl tracking-tight mb-6">Install a component</h2>
+			<p class="text-muted-foreground text-base leading-relaxed max-w-2xl mb-6">
+				Each component ships as a standalone registry JSON file. Install with the shadcn CLI:
+			</p>
+			<div class="flex items-center justify-between gap-3 border border-border/40 bg-card px-4 py-3 max-w-2xl">
+				<pre class="m-0 min-w-0 overflow-x-auto font-mono text-sm leading-relaxed">
+					<code class="text-foreground/80">npx shadcn@latest add {origin}/r/{firstSlug}.json</code>
+				</pre>
+			</div>
+			<p class="text-muted-foreground text-sm leading-relaxed max-w-2xl mt-4">
+				Replace <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">{firstSlug}</code> with any component slug. The installer resolves <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">registryDependencies</code> automatically, including <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">kam-utils</code> (the <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">cn()</code> helper) and <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">kam-containment</code> (viewport pause and motion queries).
+			</p>
+
+			<p class="text-muted-foreground text-base leading-relaxed max-w-2xl mt-8 mb-4">
+				Browse the full registry index:
+			</p>
+			<div class="flex items-center justify-between gap-3 border border-border/40 bg-card px-4 py-3 max-w-2xl">
+				<pre class="m-0 min-w-0 overflow-x-auto font-mono text-sm leading-relaxed">
+					<code class="text-foreground/80">{origin}/r/registry.json</code>
+				</pre>
+			</div>
+		</section>
+
+		<!-- Manual install -->
+		<section id="manual" class="scroll-mt-28 border-t border-border/30 pt-12 mb-16">
+			<h2 class="font-sans text-2xl tracking-tight mb-6">Manual install</h2>
+			<p class="text-muted-foreground text-base leading-relaxed max-w-2xl mb-4">
+				If you prefer not to use the CLI:
+			</p>
+			<ol class="text-muted-foreground text-base leading-relaxed max-w-2xl list-decimal list-inside flex flex-col gap-3">
+				<li>Copy the component source from the <strong class="text-foreground">Source</strong> tab on any component page</li>
+				<li>Save it to your project (e.g. <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">components/ui/</code>)</li>
+				<li>Install peer dependencies: <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">npm install clsx tailwind-merge</code></li>
+				<li>Copy <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">lib/utils.ts</code> (<code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">cn()</code> helper) and <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">lib/containment.ts</code> from the registry</li>
+				<li>For WebGL components, also install <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">ogl</code></li>
+			</ol>
+		</section>
+
+		<!-- Usage -->
+		<section id="usage" class="scroll-mt-28 border-t border-border/30 pt-12 mb-16">
+			<h2 class="font-sans text-2xl tracking-tight mb-6">Usage</h2>
+			<p class="text-muted-foreground text-base leading-relaxed max-w-2xl mb-6">
+				Every component is a React element that fills its container. Wrap it in a positioned parent:
+			</p>
+			<div class="border border-border/40 bg-card overflow-x-auto max-w-2xl">
+				<pre class="m-0 px-5 py-4 font-mono text-sm leading-relaxed"><code class="text-foreground/80">{`import { RadiantVeil } from "@/components/ui/radiant-veil";
+
+export function Hero() {
+  return (
+    <section className="relative min-h-[60vh] overflow-hidden">
+      <RadiantVeil color="#7c3aed" from="top" />
+      <div className="relative z-10 p-8">
+        Your content here
+      </div>
+    </section>
+  );
+}`}</code></pre>
+			</div>
+			<p class="text-muted-foreground text-sm leading-relaxed max-w-2xl mt-4">
+				Each component page has a <strong class="text-foreground">Usage</strong> tab with full examples and a <strong class="text-foreground">Props</strong> reference.
+			</p>
+		</section>
+
+		<!-- Assets -->
+		<section id="assets" class="scroll-mt-28 border-t border-border/30 pt-12 mb-16">
+			<h2 class="font-sans text-2xl tracking-tight mb-6">Assets</h2>
+			<p class="text-muted-foreground text-base leading-relaxed max-w-2xl mb-6">
+				Most components are fully procedural. Two require external assets that the registry cannot distribute:
+			</p>
+			<div class="flex flex-col gap-4 max-w-2xl">
+				<div class="border border-border/40 bg-card p-5">
+					<p class="text-foreground font-sans text-lg tracking-tight mb-2">Milky Way</p>
+					<p class="text-muted-foreground text-sm leading-relaxed mb-3">
+						Requires <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">public/milky-way/milky-way.jpg</code> (~945 KB).
+						Download from the <a href="https://github.com/Ouranos27/kam-ui/tree/main/public/milky-way" target="_blank" rel="noopener noreferrer" class="kam-link">kam-ui repo</a>.
+					</p>
+					<p class="text-muted-foreground text-xs">Credit: ESA/Gaia/DPAC (CC BY-SA 3.0 IGO)</p>
+				</div>
+				<div class="border border-border/40 bg-card p-5">
+					<p class="text-foreground font-sans text-lg tracking-tight mb-2">Black Hole</p>
+					<p class="text-muted-foreground text-sm leading-relaxed mb-3">
+						Requires the <code class="bg-muted px-1.5 py-0.5 font-mono text-[0.8rem]">public/black-hole/</code> folder (~3.6 MB, 5 files).
+						Download from the <a href="https://github.com/Ouranos27/kam-ui/tree/main/public/black-hole" target="_blank" rel="noopener noreferrer" class="kam-link">kam-ui repo</a>.
+					</p>
+					<p class="text-muted-foreground text-xs">License: BSD-3-Clause (Eric Bruneton)</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA -->
+		<div class="border-t border-border/30 pt-12">
+			<a href={firstComponentHref} class="kam-btn-primary">
+				Browse components
+				<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7 7 7-7 7" />
+				</svg>
+			</a>
+		</div>
+	</article>
+</DocsLayout>

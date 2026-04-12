@@ -28,6 +28,7 @@ export type NavItem = {
 
 export const mainNav: NavItem[] = [
 	{ title: 'Overview', href: '/' },
+	{ title: 'Getting Started', href: '/getting-started' },
 	{ title: 'Design System', href: '/design-system' },
 	{ title: 'Registry (JSON)', href: '/r/registry.json', openInNewTab: true },
 ];
