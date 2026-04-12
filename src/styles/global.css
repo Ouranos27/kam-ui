@@ -43,10 +43,6 @@
 	--code-foreground: #e5e5e5;
 	--code-highlight: #1a1a1a;
 	--code-number: #888888;
-	/* Legacy — kept until brand utility classes are removed in later tasks */
-	--brand: #111111;
-	--brand-muted: #888888;
-	--brand-faint: #e5e5e5;
 	--kam-chamber-dark: #09090b;
 	--kam-chamber-grid-line: #e5e5e5;
 }
@@ -86,10 +82,6 @@
 	--code-number: #666666;
 	--selection: #e5e5e5;
 	--selection-foreground: #000000;
-	/* Legacy — kept until brand utility classes are removed in later tasks */
-	--brand: #e5e5e5;
-	--brand-muted: #888888;
-	--brand-faint: #333333;
 	--kam-chamber-grid-line: #1a1a1a;
 }
 
@@ -131,10 +123,6 @@
 	--color-code-number: var(--code-number);
 	--color-selection: var(--selection);
 	--color-selection-foreground: var(--selection-foreground);
-	/* Legacy — kept until brand utility classes are removed in later tasks */
-	--color-brand: var(--brand);
-	--color-brand-muted: var(--brand-muted);
-	--color-brand-faint: var(--brand-faint);
 }
 
 body {
@@ -175,7 +163,7 @@ body {
 		z-index: -1;
 		background: linear-gradient(
 			to bottom,
-			color-mix(in oklch, var(--brand) 7%, transparent) 0%,
+			color-mix(in oklch, var(--foreground) 7%, transparent) 0%,
 			transparent 28%
 		);
 	}
@@ -198,7 +186,7 @@ body {
 	html:not(.dark) body::before {
 		background-image: radial-gradient(
 			ellipse 120% 80% at 50% -30%,
-			color-mix(in oklch, var(--brand) 5%, transparent),
+			color-mix(in oklch, var(--foreground) 5%, transparent),
 			transparent 50%
 		);
 		background-repeat: no-repeat;
@@ -209,7 +197,7 @@ body {
 	html.dark body::before {
 		background-image: radial-gradient(
 			ellipse 120% 80% at 50% -30%,
-			color-mix(in oklch, var(--brand) 8%, transparent),
+			color-mix(in oklch, var(--foreground) 8%, transparent),
 			transparent 50%
 		);
 		background-repeat: no-repeat;
@@ -296,122 +284,11 @@ body {
 			5px 5px 0 0 color-mix(in oklch, var(--foreground) 10%, transparent);
 	}
 
-	.kam-shell-stage {
-		@apply relative overflow-hidden border border-border bg-background;
-		box-shadow:
-			0 0 0 1px color-mix(in oklch, var(--foreground) 5%, transparent) inset,
-			6px 6px 0 0 color-mix(in oklch, var(--foreground) 8%, transparent);
-	}
-
-	html.dark .kam-shell-stage {
-		box-shadow:
-			0 0 0 1px color-mix(in oklch, var(--foreground) 7%, transparent) inset,
-			6px 6px 0 0 color-mix(in oklch, var(--foreground) 11%, transparent);
-	}
-
-	.kam-shell-stage::before {
-		content: "";
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		background-image:
-			linear-gradient(to right, color-mix(in oklch, var(--foreground) 5%, transparent) 1px, transparent 1px),
-			linear-gradient(to bottom, color-mix(in oklch, var(--foreground) 5%, transparent) 1px, transparent 1px);
-		background-size: 28px 28px;
-		opacity: 0.5;
-	}
-
-	/* CSS blueprint layer (see `ShellBlueprintBackground`) replaces the static `::before` grid. */
-	.kam-shell-stage--live-blueprint::before {
-		opacity: 0;
-	}
-
-	.kam-docs-shell-art {
-		background-image:
-			radial-gradient(ellipse 85% 55% at 50% -15%, color-mix(in oklch, var(--brand) 10%, transparent) 0%, transparent 52%),
-			linear-gradient(to right, color-mix(in oklch, var(--foreground) 4.5%, transparent) 1px, transparent 1px),
-			linear-gradient(to bottom, color-mix(in oklch, var(--foreground) 4.5%, transparent) 1px, transparent 1px);
-		background-size: 100% 100%, 32px 32px, 32px 32px;
-		background-position: center, 0 0, 0 0;
-		opacity: 0.62;
-	}
-
-	html.dark .kam-docs-shell-art {
-		opacity: 0.72;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.kam-docs-shell-art {
-			opacity: 0.5;
-		}
-		html.dark .kam-docs-shell-art {
-			opacity: 0.58;
-		}
-	}
-
-	/* Section title: mono label + full-width hairline rule */
-	.kam-section-title {
-		@apply flex items-center gap-4 scroll-m-28;
-		font-family: var(--font-mono);
-		font-size: 10px;
-		font-weight: 700;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		color: color-mix(in oklch, var(--foreground) 60%, transparent);
-	}
-	.kam-section-title::after {
-		content: "";
-		flex: 1;
-		height: 1px;
-		background: color-mix(in oklch, var(--border) 70%, transparent);
-	}
-
-	.kam-shell-heading {
-		@apply font-display text-foreground text-4xl font-black tracking-[-0.045em] sm:text-5xl md:text-6xl;
-	}
-
-	.kam-shell-dek {
-		@apply text-muted-foreground max-w-2xl text-base leading-relaxed sm:text-lg;
-	}
-
 	/* Containment chamber inner surfaces */
 	.kam-chamber-bezel {
 		box-shadow:
 			0 0 0 1px color-mix(in oklch, var(--foreground) 14%, transparent) inset,
 			0 0 0 7px color-mix(in oklch, var(--background) 72%, transparent) inset;
-	}
-
-	.kam-chamber-noise {
-		opacity: 0.16;
-		background-image: radial-gradient(circle at center, color-mix(in oklch, var(--foreground) 9%, transparent) 0.7px, transparent 0.7px);
-		background-size: 10px 10px;
-	}
-
-	.kam-chamber-vignette {
-		background-image: radial-gradient(ellipse 120% 75% at 50% 12%, transparent 35%, color-mix(in oklch, black 12%, transparent) 100%);
-	}
-
-	.kam-instrument-overlay {
-		@apply pointer-events-none absolute inset-0 z-10 border;
-		border-color: color-mix(in oklch, var(--foreground) 35%, transparent);
-		box-shadow:
-			inset 0 0 0 1px color-mix(in oklch, white 12%, transparent),
-			inset 0 0 0 8px color-mix(in oklch, black 32%, transparent);
-	}
-
-	.kam-instrument-chip {
-		@apply pointer-events-none absolute z-10 border px-2 py-1 font-mono text-[9px] font-semibold tracking-[0.15em] uppercase;
-		border-color: color-mix(in oklch, var(--foreground) 30%, transparent);
-		background-color: color-mix(in oklch, black 62%, transparent);
-		color: color-mix(in oklch, white 92%, transparent);
-	}
-
-	.kam-instrument-chip-default {
-		@apply right-2 top-2;
-	}
-
-	.kam-instrument-chip-left {
-		@apply left-2 top-2;
 	}
 
 	.kam-chamber-grid {
@@ -508,7 +385,7 @@ body {
 	}
 
 	html.dark .kam-rb-pill[data-active='true'] {
-		@apply text-brand;
+		@apply text-foreground;
 	}
 
 	.kam-rb-pill:focus-visible {
@@ -632,7 +509,7 @@ body {
 	html.dark [data-rehype-pretty-code-figure] {
 		border-color: color-mix(in oklch, var(--border) 85%, transparent);
 		box-shadow:
-			0 0 0 1px color-mix(in oklch, var(--brand) 18%, transparent),
+			0 0 0 1px color-mix(in oklch, var(--foreground) 18%, transparent),
 			0 20px 50px -28px oklch(0 0 0 / 0.55);
 	}
 
@@ -683,26 +560,6 @@ body {
 		display: none;
 	}
 
-	/* Design-system hero panel */
-	.kam-ds-hero-shell {
-		position: relative;
-		overflow: hidden;
-		border-radius: 0;
-		border: 1px solid var(--border);
-		background-color: color-mix(in oklch, var(--muted) 35%, var(--background));
-		backdrop-filter: none;
-		box-shadow: none;
-		/* Subtle dot-matrix texture */
-		background-image:
-			radial-gradient(circle, color-mix(in oklch, var(--foreground) 7%, transparent) 0.7px, transparent 0.7px);
-		background-size: 20px 20px;
-	}
-
-	html.dark .kam-ds-hero-shell {
-		background-color: color-mix(in oklch, var(--muted) 20%, var(--background));
-		box-shadow: none;
-	}
-
 	.kam-ds-dotfield {
 		background-image: radial-gradient(
 			circle at center,
@@ -720,28 +577,6 @@ body {
 		);
 	}
 
-	.kam-ds-hero-sheen {
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		background-image: linear-gradient(
-			105deg,
-			color-mix(in oklch, var(--brand) 12%, transparent) 0%,
-			transparent 42%
-		);
-		opacity: 0.35;
-	}
-
-	html:not(.dark) .kam-ds-hero-sheen {
-		opacity: 0.22;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.kam-ds-hero-sheen {
-			opacity: 0.15;
-		}
-	}
-
 	.kam-ds-index {
 		font-family: var(--font-mono);
 		font-size: 0.625rem;
@@ -751,7 +586,7 @@ body {
 	}
 
 	.kam-nav-section-label {
-		@apply text-brand-muted mb-3 flex items-center gap-2 text-[10px] font-semibold tracking-[0.18em] uppercase;
+		@apply text-muted-foreground mb-3 flex items-center gap-2 text-[10px] font-semibold tracking-[0.18em] uppercase;
 		font-family: var(--font-label, var(--font-mono));
 	}
 
@@ -759,24 +594,6 @@ body {
 	.kam-nav-category-label {
 		@apply text-muted-foreground/75 mb-1.5 px-3 text-[9px] font-semibold tracking-[0.2em] uppercase;
 		font-family: var(--font-label, var(--font-mono));
-	}
-
-	/* Marquee animation for news tickers */
-	@keyframes kam-marquee {
-		from { transform: translateX(0); }
-		to { transform: translateX(-50%); }
-	}
-
-	.kam-marquee-track {
-		display: inline-flex;
-		white-space: nowrap;
-		animation: kam-marquee 28s linear infinite;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.kam-marquee-track {
-			animation: none;
-		}
 	}
 
 	.kam-rail-card {
@@ -796,7 +613,7 @@ body {
 	}
 
 	.kam-rail-link[aria-current='page']::before {
-		background: var(--brand);
+		background: var(--foreground);
 	}
 
 	.kam-toc-link {
@@ -824,7 +641,7 @@ body {
 		width: 0.3rem;
 		border-radius: 50%;
 		opacity: 0;
-		background: var(--brand);
+		background: var(--foreground);
 		transition: opacity 0.2s ease;
 	}
 
@@ -851,115 +668,46 @@ body {
 		border-color: color-mix(in oklch, var(--border) 40%, transparent);
 	}
 
-	.kam-ds-philosophy-card {
-		position: relative;
-		overflow: visible;
-		border-radius: 0;
-		border: none;
-		border-left: 2px solid color-mix(in oklch, var(--border) 55%, transparent);
-		background-color: transparent;
-		padding-left: 1.1rem;
-		transition: border-color 0.2s ease;
-	}
-
-	html.dark .kam-ds-philosophy-card {
-		border-left-color: color-mix(in oklch, var(--border) 45%, transparent);
-	}
-
-	.kam-ds-philosophy-card:hover {
-		border-left-color: color-mix(in oklch, var(--brand) 45%, transparent);
-	}
-
-	.kam-ds-swatch {
-		box-shadow:
-			0 0 0 1px color-mix(in oklch, var(--foreground) 6%, transparent) inset,
-			0 10px 28px -12px oklch(0 0 0 / 0.45);
-	}
-
-	html:not(.dark) .kam-ds-swatch {
-		box-shadow:
-			0 0 0 1px color-mix(in oklch, var(--foreground) 8%, transparent) inset,
-			0 8px 20px -10px oklch(0 0 0 / 0.12);
-	}
 }
 
 @layer utilities {
 	.kam-link {
-		@apply text-foreground cursor-pointer font-medium underline underline-offset-4 transition-colors duration-200 hover:text-brand hover:no-underline;
+		color: var(--foreground);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		transition: opacity 0.2s;
 	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.kam-link {
-			@apply transition-none;
-		}
-	}
-
-	/* Landing page utilities */
-	.kam-landing-section {
-		@apply border-b border-border;
-	}
-
-	/* Alternate section surfaces — adapt to dark mode */
-	.kam-section-surface {
-		background-color: oklch(0.974 0 0);
-	}
-
-	html.dark .kam-section-surface {
-		background-color: oklch(0.165 0.022 285);
-	}
-
-	.kam-section-tinted {
-		background-color: oklch(0.964 0.007 260);
-	}
-
-	html.dark .kam-section-tinted {
-		background-color: oklch(0.17 0.025 262);
-	}
-
-	.kam-landing-container {
-		@apply mx-auto w-full max-w-[1480px] px-5 md:px-8 lg:px-12;
-	}
-
-	.kam-section-index {
-		font-family: var(--font-label, var(--font-mono));
-		@apply text-muted-foreground text-[10px] font-semibold tracking-[0.28em] uppercase shrink-0;
-	}
+	.kam-link:hover { opacity: 0.7; }
 
 	.kam-btn-primary {
-		@apply bg-foreground text-background cursor-pointer font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:bg-brand inline-flex items-center gap-2;
-		font-family: var(--font-label, var(--font-mono));
-		font-size: 0.6875rem;
-		padding: 0.75rem 1.5rem;
+		display: inline-flex;
+		cursor: pointer;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.625rem 1.25rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		color: var(--background);
+		background: var(--foreground);
+		transition: opacity 0.2s;
 	}
+	.kam-btn-primary:hover { opacity: 0.8; }
 
 	.kam-btn-secondary {
-		@apply border border-foreground text-foreground cursor-pointer font-semibold tracking-[0.14em] uppercase transition-all duration-200 hover:shadow-[4px_4px_0_0_color-mix(in_oklch,var(--foreground)_12%,transparent)] inline-flex items-center gap-2;
-		font-family: var(--font-label, var(--font-mono));
-		font-size: 0.6875rem;
-		padding: 0.75rem 1.5rem;
-	}
-
-	.kam-data-card {
+		display: inline-flex;
+		cursor: pointer;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.625rem 1.25rem;
+		font-size: 0.8125rem;
+		font-weight: 500;
+		letter-spacing: 0.02em;
+		color: var(--foreground);
 		border: 1px solid var(--border);
-		background-color: color-mix(in oklch, var(--muted) 55%, var(--background));
-		transition: box-shadow 0.2s;
+		transition: border-color 0.2s, color 0.2s;
 	}
-
-	.kam-data-card:hover {
-		box-shadow: 4px 4px 0 0 color-mix(in oklch, var(--foreground) 10%, transparent);
-	}
-
-	html.dark .kam-data-card {
-		background-color: color-mix(in oklch, var(--muted) 40%, var(--background));
-	}
-
-	.kam-hard-shadow {
-		box-shadow: 4px 4px 0 0 color-mix(in oklch, var(--foreground) 10%, transparent);
-	}
-
-	html.dark .kam-hard-shadow {
-		box-shadow: 4px 4px 0 0 color-mix(in oklch, var(--foreground) 8%, transparent);
-	}
+	.kam-btn-secondary:hover { border-color: var(--foreground); }
 
 	@media (prefers-reduced-motion: reduce) {
 		.kam-btn-primary,
