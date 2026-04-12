@@ -16,7 +16,7 @@
 	--secondary: #111111;
 	--secondary-foreground: #e5e5e5;
 	--muted: #111111;
-	--muted-foreground: #888888;
+	--muted-foreground: #999999;
 	--accent: #1a1a1a;
 	--accent-foreground: #e5e5e5;
 	--destructive: #dc2626;
@@ -36,7 +36,7 @@
 	--code: #0a0a0a;
 	--code-foreground: #e5e5e5;
 	--code-highlight: #1a1a1a;
-	--code-number: #666666;
+	--code-number: #888888;
 	--selection: #e5e5e5;
 	--selection-foreground: #000000;
 	--kam-chamber-dark: #09090b;
