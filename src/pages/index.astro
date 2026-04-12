@@ -1,0 +1,852 @@
+---
+import '../styles/global.css';
+import { componentNav, componentNavGrouped, firstComponentHref, firstRegistrySlug } from '../data/nav';
+import { MilkyWay } from '../components/react/MilkyWay';
+
+const description =
+	'kam-ui — a shadcn-compatible registry of motion-rich React specimens. Deploy with the CLI or extract source.';
+
+const features = [
+	{
+		index: '01',
+		tag: 'FRAME',
+		title: 'Rigid 3-Column Architecture',
+		blurb:
+			'Sidebar, article measure, and technical TOC rail. Clear panels and tonal boundaries without turning the whole site into a themed “console.”',
+	},
+	{
+		index: '02',
+		tag: 'COMPONENTS',
+		title: 'Previews + Source',
+		blurb:
+			'Each component page pairs a live preview with install steps and extracted source. Motion-rich where it matters, accessible by default.',
+	},
+	{
+		index: '03',
+		tag: 'DEPLOYMENT',
+		title: 'shadcn-compatible Registry',
+		blurb:
+			'Install via generated registry.json entries under /r/. One command into any React + Tailwind + shadcn stack.',
+	},
+] as const;
+
+const principles = [
+	{ tag: 'Clear hierarchy', blurb: 'Docs chrome stays in semantic tokens and spacing — readable navigation, not a costume layer on top of the registry.' },
+	{ tag: 'Quiet canvas', blurb: 'Generous whitespace and subtle brand wash so component previews stay the focus.' },
+	{ tag: 'Portable components', blurb: 'Registry pieces are framed so they still look at home in a normal shadcn + Tailwind app.' },
+] as const;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<script is:inline>
+			try {
+				const k = 'kam-ui-theme';
+				const v = localStorage.getItem(k);
+				const r = document.documentElement;
+				if (v === 'dark') r.classList.add('dark');
+				else if (v === 'system')
+					r.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
+				else r.classList.add('dark');
+			} catch {}
+		</script>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content={description} />
+		<meta property="og:title" content="kam-ui · Motion registry" />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://ui.philippekam.dev" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="kam-ui · Motion registry" />
+		<meta name="twitter:description" content={description} />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<title>kam-ui · Motion registry</title>
+	</head>
+
+	<body class="bg-background text-foreground min-h-screen font-sans antialiased overscroll-none">
+
+		<!-- Skip to main -->
+		<a
+			class="fixed left-4 top-4 z-200 -translate-y-20 bg-card border border-border px-4 py-2.5 font-mono text-xs font-semibold uppercase tracking-wide focus:translate-y-0 transition-transform duration-200"
+			href="#main-content"
+		>Skip to main content</a>
+
+		<!-- Mouse spotlight — tight radial that follows the cursor -->
+		<div
+			id="landing-spotlight"
+			class="pointer-events-none fixed inset-0 z-0 opacity-0 transition-opacity duration-700"
+			aria-hidden="true"
+			style="background: radial-gradient(160px circle at var(--sl-x, 50%) var(--sl-y, 50%), var(--sl-color, transparent), transparent 80%);"
+		></div>
+
+		<!-- Registration marks — fixed viewport corners -->
+		<div class="pointer-events-none fixed inset-0 z-150" aria-hidden="true">
+			<span class="absolute left-4 top-4 text-foreground/15 font-mono text-xs font-bold leading-none select-none">+</span>
+			<span class="absolute right-4 top-4 text-foreground/15 font-mono text-xs font-bold leading-none select-none">+</span>
+			<span class="absolute left-4 bottom-4 text-foreground/15 font-mono text-xs font-bold leading-none select-none">+</span>
+			<span class="absolute right-4 bottom-4 text-foreground/15 font-mono text-xs font-bold leading-none select-none">+</span>
+		</div>
+
+		<!-- MAIN NAV -->
+		<nav class="border-b border-border sticky top-0 z-100 bg-background" aria-label="Primary">
+			<div class="mx-auto flex max-w-[1480px] items-center justify-between gap-4 px-5 py-4 md:px-8 lg:px-12">
+				<!-- Logo -->
+				<a href="/" class="group shrink-0 cursor-pointer no-underline">
+					<span class="font-display text-xl font-black tracking-[-0.04em] text-foreground transition-colors duration-200 group-hover:text-brand">
+						KAM<span class="text-brand">—UI</span>
+					</span>
+					<span
+						class="mt-0.5 block text-[9px] font-semibold tracking-[0.2em] uppercase text-muted-foreground"
+						style="font-family: var(--font-label, var(--font-mono))"
+					>
+						React · Tailwind · shadcn registry
+					</span>
+				</a>
+
+				<!-- Desktop nav links -->
+				<ul class="hidden items-center gap-6 list-none p-0 m-0 md:flex">
+					{[
+						{ label: 'Overview', href: '/', active: true },
+						{ label: 'Lab Reference', href: '/design-system', active: false },
+						{ label: 'Components', href: firstComponentHref, active: false },
+					].map(link => (
+						<li>
+							<a
+								href={link.href}
+								class:list={[
+									'font-semibold tracking-[0.14em] uppercase transition-colors duration-200 cursor-pointer no-underline text-[10px]',
+									link.active
+										? 'text-foreground'
+										: 'text-muted-foreground hover:text-foreground',
+								]}
+								style="font-family: var(--font-label, var(--font-mono))"
+							>
+								{link.label}
+							</a>
+						</li>
+					))}
+				</ul>
+
+				<!-- Right: GitHub + Registry + Theme toggle -->
+				<div class="flex items-center gap-3 shrink-0">
+					<a
+						href="https://github.com/Ouranos27/kam-ui"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="hidden md:inline-flex items-center gap-1.5 font-semibold tracking-[0.14em] uppercase text-[9px] text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer no-underline"
+						style="font-family: var(--font-label, var(--font-mono))"
+						aria-label="GitHub repository"
+					>
+						<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+							<path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/>
+						</svg>
+					</a>
+					<a
+						href="/r/registry.json"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="hidden md:inline-flex items-center gap-1.5 font-semibold tracking-[0.14em] uppercase text-[9px] text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer no-underline"
+						style="font-family: var(--font-label, var(--font-mono))"
+					>
+						Registry JSON
+						<svg class="size-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17 17 7M7 7h10v10" />
+						</svg>
+					</a>
+					<label class="sr-only" for="kam-theme-landing">Appearance</label>
+					<select
+						id="kam-theme-landing"
+						class="border border-border bg-background text-foreground h-8 cursor-pointer px-2 font-semibold tracking-[0.12em] uppercase text-[9px] shadow-none transition-colors focus:outline-none focus:ring-1 focus:ring-ring"
+						style="font-family: var(--font-label, var(--font-mono))"
+					>
+						<option value="light">Light</option>
+						<option value="dark">Dark</option>
+						<option value="system">System</option>
+					</select>
+
+					<!-- Mobile menu toggle -->
+					<details id="landing-mobile-nav" class="md:hidden relative">
+						<summary
+							class="border border-border text-muted-foreground hover:text-foreground flex size-8 cursor-pointer list-none items-center justify-center transition-colors [&::-webkit-details-marker]:hidden"
+							aria-label="Open menu"
+						>
+							<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+							</svg>
+						</summary>
+						<nav class="absolute right-0 top-full mt-2 w-56 border border-border bg-background p-4 shadow-[4px_4px_0_0_color-mix(in_oklch,var(--foreground)_10%,transparent)]" aria-label="Mobile">
+							<ul class="flex flex-col gap-2 list-none p-0 m-0">
+								{[
+									{ label: 'Overview', href: '/' },
+									{ label: 'Lab Reference', href: '/design-system' },
+									{ label: 'Components', href: firstComponentHref },
+									{ label: 'Registry JSON', href: '/r/registry.json' },
+									{ label: 'GitHub', href: 'https://github.com/Ouranos27/kam-ui' },
+								].map(link => (
+									<li>
+										<a
+											href={link.href}
+											class="block py-2 text-sm font-semibold tracking-[0.12em] uppercase text-foreground hover:text-brand transition-colors duration-200 cursor-pointer no-underline"
+											style="font-family: var(--font-label, var(--font-mono))"
+										>
+											{link.label}
+										</a>
+									</li>
+								))}
+							</ul>
+						</nav>
+					</details>
+				</div>
+			</div>
+		</nav>
+
+		<main id="main-content" tabindex="-1">
+
+			<!-- ═══════════════════════════════════════════════════════ -->
+			<!-- SECTION 01: THE EDITORIAL COVER — Hero                  -->
+			<!-- ═══════════════════════════════════════════════════════ -->
+		<section
+			class="relative overflow-hidden border-b border-border"
+			aria-labelledby="hero-headline"
+			style="background-color: var(--background);"
+		>
+			<!-- Local grid — scrolls with page, prevents fixed-bg parallax slip -->
+			<div
+				class="absolute inset-0 pointer-events-none"
+				aria-hidden="true"
+				style="
+					background-image:
+						linear-gradient(var(--kam-chamber-grid-line) 1px, transparent 1px),
+						linear-gradient(90deg, var(--kam-chamber-grid-line) 1px, transparent 1px);
+					background-size: 32px 32px;
+				"
+			></div>
+			<!-- Brand radial accent -->
+			<div
+				class="absolute inset-0 pointer-events-none"
+				aria-hidden="true"
+				style="background: radial-gradient(ellipse 110% 70% at 45% -5%, color-mix(in oklch, var(--brand) 9%, transparent), transparent 60%);"
+			></div>
+
+				<div class="relative kam-landing-container py-20 md:py-28 lg:py-36">
+					<div class="grid gap-12 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:gap-20 xl:gap-28 items-start">
+
+						<!-- LEFT: Main editorial content -->
+						<div>
+							<!-- Eyebrow label -->
+							<p
+								class="flex flex-wrap items-center gap-2.5 font-mono text-[10px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+							>
+								<svg
+									class="size-3 shrink-0 text-foreground opacity-60"
+									viewBox="0 0 12 12"
+									fill="none"
+									stroke="currentColor"
+									stroke-width="1.2"
+									aria-hidden="true"
+								>
+									<path d="M6 1v10M1 6h10" />
+								</svg>
+								<span>kam-ui: The Editorial Cover</span>
+							</p>
+
+							<!-- Main headline -->
+							<h1
+								id="hero-headline"
+								class="kam-shell-heading mt-8 max-w-[16ch]"
+								style="letter-spacing: -0.045em; line-height: 1.0;"
+							>
+								A RIGID REGISTRY<br />FOR ANIMATED<br />SPECIMENS.
+							</h1>
+
+							<!-- Body text -->
+							<p class="kam-shell-dek mt-6 max-w-lg">
+								The cover frames the entire system as a technical publication: hard edges, mono telemetry, and sparse accent signals. Deploy any specimen in minutes.
+							</p>
+
+							<!-- Telemetry stats grid -->
+							<dl class="mt-10 grid grid-cols-2 gap-x-8 gap-y-4 border-t border-dashed border-border pt-8 font-mono text-[11px] sm:grid-cols-4">
+								<div>
+									<dt class="text-muted-foreground tracking-wide uppercase">System</dt>
+									<dd class="mt-1 font-semibold tracking-tight">kam-ui</dd>
+								</div>
+								<div>
+									<dt class="text-muted-foreground tracking-wide uppercase">Components</dt>
+									<dd class="mt-1 font-semibold tracking-tight text-brand">{componentNav.length}</dd>
+								</div>
+								<div>
+									<dt class="text-muted-foreground tracking-wide uppercase">Frame</dt>
+									<dd class="mt-1 font-semibold tracking-tight">Editorial</dd>
+								</div>
+								<div>
+									<dt class="text-muted-foreground tracking-wide uppercase">Accent</dt>
+									<dd class="mt-1 font-semibold tracking-tight">Electric Blue</dd>
+								</div>
+							</dl>
+
+							<!-- CTA buttons -->
+							<div class="mt-10 flex flex-wrap items-center gap-4">
+								<a href={firstComponentHref} class="kam-btn-primary">
+									Browse components
+									<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7 7 7-7 7" />
+									</svg>
+								</a>
+								<a href="/design-system" class="kam-btn-secondary">
+									Lab Reference
+								</a>
+							</div>
+						</div>
+
+						<!-- RIGHT: System manifest card + latest update ticker -->
+						<div class="flex flex-col gap-5 lg:pt-2">
+
+							<!-- System manifest card -->
+							<div class="kam-data-card p-6">
+								<p
+									class="mb-5 text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+									style="font-family: var(--font-label, var(--font-mono))"
+								>
+									[ SYSTEM_MANIFEST_V1.1 ]
+								</p>
+								<dl class="space-y-3 font-mono text-sm">
+									<div class="flex items-center justify-between gap-4">
+										<dt class="text-muted-foreground uppercase tracking-wide text-[10px]">SPECIMENS</dt>
+										<dd class="font-semibold text-brand">{componentNav.length}</dd>
+									</div>
+									<div class="flex items-center justify-between gap-4">
+										<dt class="text-muted-foreground uppercase tracking-wide text-[10px]">ENGINE</dt>
+										<dd class="font-semibold">WebGL + CSS</dd>
+									</div>
+									<div class="flex items-center justify-between gap-4">
+										<dt class="text-muted-foreground uppercase tracking-wide text-[10px]">FRAMEWORK</dt>
+										<dd class="font-semibold">React 19</dd>
+									</div>
+									<div class="flex items-center justify-between gap-4">
+										<dt class="text-muted-foreground uppercase tracking-wide text-[10px]">STYLING</dt>
+										<dd class="font-semibold">Tailwind v4</dd>
+									</div>
+									<div class="flex items-center justify-between gap-4">
+										<dt class="text-muted-foreground uppercase tracking-wide text-[10px]">REGISTRY</dt>
+										<dd class="font-semibold text-brand">shadcn</dd>
+									</div>
+									<div class="flex items-center justify-between gap-4">
+										<dt class="text-muted-foreground uppercase tracking-wide text-[10px]">LICENSE</dt>
+										<dd class="font-semibold">MIT</dd>
+									</div>
+								</dl>
+							</div>
+
+							<!-- Latest update ticker -->
+							<div class="overflow-hidden border border-border">
+								<div class="border-b border-border bg-muted/40 px-4 py-2">
+									<p
+										class="text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+										style="font-family: var(--font-label, var(--font-mono))"
+									>
+										Latest Update
+									</p>
+								</div>
+								<div class="overflow-hidden px-4 py-3">
+									<div class="kam-marquee-track font-mono text-[10px] text-muted-foreground" aria-label="Latest updates">
+										<span class="pr-16">V0.1-BETA · {componentNav.length} SPECIMENS INDEXED · SHADCN REGISTRY COMPATIBLE · WEBGL + OGL · CSS VARS + rAF · &nbsp;</span>
+										<span class="pr-16" aria-hidden="true">V0.1-BETA · {componentNav.length} SPECIMENS INDEXED · SHADCN REGISTRY COMPATIBLE · WEBGL + OGL · CSS VARS + rAF · &nbsp;</span>
+									</div>
+								</div>
+							</div>
+
+							<!-- Install quick-start -->
+							<div class="border border-border">
+								<div class="border-b border-border bg-muted/40 px-4 py-2">
+									<p
+										class="text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+										style="font-family: var(--font-label, var(--font-mono))"
+									>
+										Quick Install
+									</p>
+								</div>
+								<div class="flex items-center justify-between gap-2 px-4 py-3">
+									<code class="font-mono text-[11px] text-foreground min-w-0 truncate">{`npx shadcn@latest add /r/${firstRegistrySlug}.json`}</code>
+									<button
+										id="copy-install-btn"
+										type="button"
+										data-install-cmd={`npx shadcn@latest add https://ui.philippekam.dev/r/${firstRegistrySlug}.json`}
+										class="shrink-0 border border-border px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground hover:border-foreground hover:text-foreground transition-colors duration-200 cursor-pointer"
+										aria-label="Copy install command"
+									>
+										COPY
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<!-- SECTION 02: THE TECHNICAL SCHEMATIC — Features          -->
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<section class="kam-landing-section kam-section-surface" aria-labelledby="schematic-heading">
+				<div class="kam-landing-container py-20 md:py-24">
+					<div class="mb-12 flex flex-wrap items-baseline gap-4">
+						<span class="kam-section-index">02</span>
+						<h2
+							id="schematic-heading"
+							class="font-display text-2xl font-black tracking-[-0.03em] sm:text-3xl"
+						>
+							THE TECHNICAL SCHEMATIC
+						</h2>
+						<p class="ml-auto hidden font-mono text-[10px] text-muted-foreground md:block">
+							[ SYSTEM_SCAN ] // ARCHITECTURE_INDEXED
+						</p>
+					</div>
+
+					<!-- 3-column feature grid with "gap-px bg-border" trick for 1px dividers -->
+					<div class="grid gap-px bg-border md:grid-cols-3">
+						{features.map((f) => (
+							<div class="bg-background p-8 md:p-10">
+								<p
+									class="mb-3 text-brand text-[10px] font-semibold tracking-[0.2em] uppercase"
+									style="font-family: var(--font-label, var(--font-mono))"
+								>
+									{f.tag}
+								</p>
+								<h3 class="font-display text-lg font-bold tracking-tight">{f.title}</h3>
+								<p class="mt-3 text-sm leading-relaxed text-muted-foreground">{f.blurb}</p>
+							</div>
+						))}
+					</div>
+
+					<!-- Operating doctrine cards -->
+					<div class="mt-px grid gap-px bg-border md:grid-cols-3">
+						{principles.map((p) => (
+							<div class="group bg-background p-8 hover:bg-muted/30 transition-colors duration-200 cursor-default">
+								<div class="mb-4 flex items-center gap-1.5">
+									<span class="size-1 bg-brand" aria-hidden="true"></span>
+									<span class="size-1 bg-brand/40" aria-hidden="true"></span>
+									<span class="size-1 bg-brand/20" aria-hidden="true"></span>
+								</div>
+								<h3 class="font-display text-base font-bold tracking-tight">{p.tag}</h3>
+								<p class="mt-2.5 text-sm leading-relaxed text-muted-foreground">{p.blurb}</p>
+							</div>
+						))}
+					</div>
+				</div>
+			</section>
+
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<!-- SECTION 03: THE ACTIVE LABORATORY — Component index     -->
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<section class="kam-landing-section kam-section-tinted" aria-labelledby="lab-heading">
+				<div class="kam-landing-container py-20 md:py-24">
+					<div class="mb-12 flex flex-wrap items-center justify-between gap-6">
+						<div class="flex flex-wrap items-baseline gap-4">
+							<span class="kam-section-index">03</span>
+							<h2
+								id="lab-heading"
+								class="font-display text-2xl font-black tracking-[-0.03em] sm:text-3xl"
+							>
+								THE ACTIVE LABORATORY
+							</h2>
+						</div>
+						<p
+							class="hidden font-mono text-[10px] font-semibold text-muted-foreground md:block"
+						>
+							[ SYNCING_NODE_01 ] // {componentNav.length} SPECIMENS INDEXED
+						</p>
+					</div>
+
+					<!-- Terminal scan lines animation -->
+					<div class="mb-6 border border-dashed border-border p-4">
+						<p class="font-mono text-[10px] text-muted-foreground leading-loose">
+							<span class="text-brand">{'>'}</span> INITIALIZING ARCHITECTURAL_SHELL...<br />
+							<span class="text-brand">{'>'}</span> LOADING GEOMETRY_BUFFERS [<span class="text-brand">OK</span>]<br />
+							<span class="text-brand">{'>'}</span> MAPPING VERTEX_INDEX_0492 [<span class="text-brand">OK</span>]<br />
+							<span class="text-brand">{'>'}</span> CORE_LATENCY: 1.2MS · RENDER_MODE: WIREFRAME
+						</p>
+					</div>
+
+					<!-- Component cards — grouped by category -->
+					<div class="flex flex-col gap-12 md:gap-14">
+						{componentNavGrouped.map((group) => (
+							<section class="min-w-0" aria-labelledby={`lab-cat-${group.id}`}>
+								<div class="mb-5 flex flex-wrap items-baseline gap-3 border-b border-border/60 pb-3">
+									<h3
+										id={`lab-cat-${group.id}`}
+										class="font-display text-sm font-bold tracking-tight text-foreground sm:text-base"
+									>
+										{group.label}
+									</h3>
+									<span class="font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+										{group.items.length} entr{group.items.length === 1 ? 'y' : 'ies'}
+									</span>
+								</div>
+								{group.items.length > 0 ? (
+									<ul class="m-0 grid list-none gap-px bg-border p-0 grid-cols-2 lg:grid-cols-4">
+										{group.items.map((c) => (
+											<li class="bg-background">
+												<a
+													href={c.href}
+													class="group flex min-h-24 sm:min-h-44 cursor-pointer flex-col p-4 sm:p-6 no-underline transition-colors duration-200 hover:bg-muted/20"
+												>
+													{c.slug && (
+														<span class="hidden sm:block font-mono text-[9px] font-semibold tracking-[0.14em] text-muted-foreground">
+															{c.slug}
+														</span>
+													)}
+													{c.specimenCode && (
+														<span class="sm:hidden font-mono text-[8px] font-semibold tracking-[0.14em] text-muted-foreground">
+															{c.specimenCode}
+														</span>
+													)}
+													<span class="font-display mt-1 sm:mt-2 text-sm sm:text-base font-bold tracking-tight text-foreground transition-colors duration-200 group-hover:text-brand">
+														{c.title}
+													</span>
+													{c.description && (
+														<span class="hidden sm:block mt-2 flex-1 text-[13px] leading-relaxed text-muted-foreground">
+															{c.description}
+														</span>
+													)}
+													<span class="mt-auto pt-3 sm:pt-4 inline-flex items-center gap-1.5 font-mono text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-brand">
+														View
+														<svg class="size-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+															<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7 7 7-7 7" />
+														</svg>
+													</span>
+												</a>
+											</li>
+										))}
+									</ul>
+								) : (
+									<p class="border border-dashed border-border/80 bg-muted/10 px-5 py-4 font-mono text-[11px] leading-relaxed text-muted-foreground">
+										{group.emptyHint ?? '—'}
+									</p>
+								)}
+							</section>
+						))}
+					</div>
+				</div>
+			</section>
+
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<!-- SECTION 04: REGISTRY PROTOCOL — Install                 -->
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<section class="kam-landing-section kam-section-surface" aria-labelledby="registry-heading">
+				<div class="kam-landing-container py-20 md:py-24">
+					<div class="mb-12 flex flex-wrap items-baseline gap-4">
+						<span class="kam-section-index">04</span>
+						<h2
+							id="registry-heading"
+							class="font-display text-2xl font-black tracking-[-0.03em] sm:text-3xl"
+						>
+							REGISTRY PROTOCOL
+						</h2>
+					</div>
+
+					<div class="grid gap-12 md:gap-16 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-24">
+						<!-- Install commands -->
+						<div>
+							<p class="text-base leading-relaxed text-muted-foreground max-w-lg">
+								Static JSON follows the{' '}
+								<a href="https://ui.shadcn.com/docs/registry/registry-json" class="kam-link">shadcn registry.json</a>{' '}
+								schema. Each specimen ships under{' '}
+								<code class="bg-muted rounded-none px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem]">/r/</code>,
+								including{' '}
+								<code class="bg-muted rounded-none px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem]">kam-utils</code>{' '}
+								for <code class="bg-muted rounded-none px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem]">cn()</code>.
+							</p>
+
+							<!-- Method 1: shadcn CLI -->
+							<div class="mt-8 border border-border">
+								<div class="border-b border-border bg-muted/30 px-4 py-2.5">
+									<p
+										class="text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+										style="font-family: var(--font-label, var(--font-mono))"
+									>
+										Method 01 · shadcn CLI
+									</p>
+								</div>
+								<div class="flex items-center justify-between gap-3 px-4 py-3.5">
+									<code class="font-mono text-sm text-foreground min-w-0 truncate">
+										{`npx shadcn@latest add https://ui.philippekam.dev/r/${firstRegistrySlug}.json`}
+									</code>
+								</div>
+							</div>
+
+							<!-- Method 2: Direct source -->
+							<div class="mt-px border border-border">
+								<div class="border-b border-border bg-muted/30 px-4 py-2.5">
+									<p
+										class="text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+										style="font-family: var(--font-label, var(--font-mono))"
+									>
+										Method 02 · Direct Source Extract
+									</p>
+								</div>
+								<div class="flex items-center gap-3 px-4 py-3.5">
+									<code class="font-mono text-sm text-muted-foreground min-w-0 truncate">
+										Copy source directly from the specimen Code tab
+									</code>
+								</div>
+							</div>
+
+							<div class="mt-8 flex flex-wrap gap-4">
+								<a href="/r/registry.json" target="_blank" rel="noopener noreferrer" class="kam-btn-primary">
+									Open registry.json
+									<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 17 17 7M7 7h10v10" />
+									</svg>
+								</a>
+								<a href={firstComponentHref} class="kam-btn-secondary">
+									Browse components
+								</a>
+							</div>
+						</div>
+
+						<!-- Usage snippet card -->
+						<div class="border border-border overflow-hidden">
+							<div class="border-b border-border bg-muted/30 px-4 py-2.5">
+								<p
+									class="text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
+									style="font-family: var(--font-label, var(--font-mono))"
+								>
+									Blueprint Sample
+								</p>
+							</div>
+							<div class="bg-code p-5 overflow-x-auto">
+								<pre class="font-mono text-[12px] leading-relaxed text-code-foreground"><code>{`import { RadiantVeil } from "@/components/ui/radiant-veil";
+
+export function Hero() {
+  return (
+    <section className="relative min-h-[60vh] w-full overflow-hidden bg-zinc-950">
+      <RadiantVeil color="#7c3aed" from="top" clearStop={40} />
+      <div className="relative z-10 p-8 text-white">Content</div>
+    </section>
+  );
+}`}</code></pre>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<!-- SECTION 05: CTA — Enter the lab (inverted dark)        -->
+		<!-- ═══════════════════════════════════════════════════════ -->
+		<section
+			aria-labelledby="cta-heading"
+			class="relative overflow-hidden"
+			style="background: oklch(0.095 0.02 272);"
+		>
+			<!-- Live Milky Way background -->
+			<div class="absolute inset-0">
+				<MilkyWay client:visible brightness={1.2} speed={0.08} className="absolute inset-0" />
+			</div>
+			<div class="relative z-10 kam-landing-container py-24 md:py-32">
+				<div
+					class="relative overflow-hidden p-10 md:p-16 lg:p-20"
+					style="
+						border: 1px solid oklch(1 0 0 / 10%);
+						box-shadow: 4px 4px 0 0 oklch(1 0 0 / 6%);
+						background: oklch(0.095 0.02 272 / 85%);
+						backdrop-filter: blur(8px);
+						background-image:
+							linear-gradient(oklch(1 0 0 / 5%) 1px, transparent 1px),
+							linear-gradient(90deg, oklch(1 0 0 / 5%) 1px, transparent 1px);
+						background-size: 24px 24px;
+					"
+				>
+					<!-- Corner registration marks -->
+					<span class="absolute left-4 top-4 font-mono text-sm font-bold select-none" style="color: oklch(1 0 0 / 22%);" aria-hidden="true">+</span>
+					<span class="absolute right-4 top-4 font-mono text-sm font-bold select-none" style="color: oklch(1 0 0 / 22%);" aria-hidden="true">+</span>
+					<span class="absolute left-4 bottom-4 font-mono text-sm font-bold select-none" style="color: oklch(1 0 0 / 22%);" aria-hidden="true">+</span>
+					<span class="absolute right-4 bottom-4 font-mono text-sm font-bold select-none" style="color: oklch(1 0 0 / 22%);" aria-hidden="true">+</span>
+
+					<div class="relative">
+						<p
+							class="mb-4 text-[10px] font-semibold tracking-[0.22em] uppercase text-brand"
+							style="font-family: var(--font-label, var(--font-mono))"
+						>
+							Open source · MIT licensed
+						</p>
+						<h2
+							id="cta-heading"
+							class="font-display text-3xl font-black tracking-[-0.04em] sm:text-4xl md:text-5xl max-w-[20ch]"
+							style="color: oklch(0.97 0.01 285);"
+						>
+							START BUILDING WITH KAM-UI.
+						</h2>
+						<p class="mt-6 max-w-xl text-base leading-relaxed" style="color: oklch(0.62 0.04 285);">
+							Production-ready WebGL and CSS background components for React. Install via the shadcn CLI, customise the props, and ship.
+						</p>
+						<div class="mt-10 flex flex-wrap gap-4">
+							<a
+								href={firstComponentHref}
+								class="inline-flex cursor-pointer items-center gap-2 font-semibold tracking-[0.14em] uppercase transition-colors duration-200 hover:opacity-85"
+								style="background: oklch(0.97 0.01 285); color: oklch(0.095 0.02 272); padding: 0.75rem 1.5rem; font-size: 0.6875rem; font-family: var(--font-label, var(--font-mono));"
+							>
+								Browse Components
+								<svg class="size-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7 7 7-7 7" />
+								</svg>
+							</a>
+							<a
+								href="/design-system"
+								class="inline-flex cursor-pointer items-center gap-2 font-semibold tracking-[0.14em] uppercase transition-all duration-200"
+								style="border: 1px solid oklch(1 0 0 / 35%); color: oklch(0.97 0.01 285); padding: 0.75rem 1.5rem; font-size: 0.6875rem; font-family: var(--font-label, var(--font-mono));"
+							>
+								View Design System
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		</main>
+
+		<!-- FOOTER -->
+		<footer class="border-t border-border kam-section-surface">
+			<div class="kam-landing-container py-12">
+				<div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+					<!-- Brand -->
+					<div>
+						<span class="font-display text-2xl font-black tracking-[-0.04em]">KAM<span class="text-brand">—UI</span></span>
+						<p
+							class="mt-1 text-[9px] font-semibold tracking-[0.2em] uppercase text-muted-foreground"
+							style="font-family: var(--font-label, var(--font-mono))"
+						>
+							React · Tailwind · shadcn registry · v0.1-beta
+						</p>
+					</div>
+
+					<!-- Footer links -->
+					<nav aria-label="Footer">
+						<ul class="flex flex-wrap gap-x-8 gap-y-3 list-none p-0 m-0">
+							{[
+								{ label: 'Lab Reference', href: '/design-system' },
+								{ label: 'Components', href: firstComponentHref },
+								{ label: 'Registry JSON', href: '/r/registry.json', external: true },
+								{ label: 'GitHub', href: 'https://github.com/Ouranos27/kam-ui', external: true },
+							].map(link => (
+								<li>
+									<a
+										href={link.href}
+										target={link.external ? '_blank' : undefined}
+										rel={link.external ? 'noopener noreferrer' : undefined}
+										class="text-[10px] font-semibold tracking-[0.16em] uppercase text-muted-foreground hover:text-foreground transition-colors duration-200 cursor-pointer no-underline"
+										style="font-family: var(--font-label, var(--font-mono))"
+									>
+										{link.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</nav>
+
+					<!-- Built with -->
+					<p class="font-mono text-[10px] text-muted-foreground">
+						Built with{' '}
+						<a href="https://astro.build/" class="kam-link text-[10px]">Astro</a>
+						{' · '}
+						<a href="https://ui.shadcn.com/docs/registry" class="kam-link text-[10px]">shadcn registry</a>
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<!-- Theme toggle + copy button scripts -->
+		<script is:inline>
+			(() => {
+				const KEY = 'kam-ui-theme';
+				const root = document.documentElement;
+
+				function readStored() {
+					const v = localStorage.getItem(KEY);
+					if (v === 'light' || v === 'dark' || v === 'system') return v;
+					return 'light';
+				}
+
+				function apply(mode) {
+					if (mode === 'light') root.classList.remove('dark');
+					else if (mode === 'dark') root.classList.add('dark');
+					else root.classList.toggle('dark', matchMedia('(prefers-color-scheme: dark)').matches);
+				}
+
+				const sel = document.getElementById('kam-theme-landing');
+				if (sel instanceof HTMLSelectElement) {
+					sel.value = readStored();
+					sel.addEventListener('change', () => {
+						localStorage.setItem(KEY, sel.value);
+						apply(sel.value);
+					});
+				}
+
+				matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+					if (readStored() === 'system') apply('system');
+				});
+
+				// Copy install button
+				const copyBtn = document.getElementById('copy-install-btn');
+				if (copyBtn) {
+					copyBtn.addEventListener('click', () => {
+						const cmd = copyBtn.getAttribute('data-install-cmd');
+						if (!cmd) return;
+						navigator.clipboard.writeText(cmd).then(() => {
+							const orig = copyBtn.textContent;
+							copyBtn.textContent = 'COPIED';
+							setTimeout(() => { copyBtn.textContent = orig; }, 1800);
+						});
+					});
+				}
+
+				// Mobile nav close on link click
+				const det = document.getElementById('landing-mobile-nav');
+				if (det) {
+					det.addEventListener('click', (e) => {
+						const a = e.target?.closest('a');
+						if (a && det.contains(a)) det.open = false;
+					});
+				}
+
+				// Mouse spotlight (desktop pointer devices only)
+				const spotlight = document.getElementById('landing-spotlight');
+				if (spotlight && window.matchMedia('(pointer: fine)').matches) {
+					const isDark = () => document.documentElement.classList.contains('dark');
+					const setColor = () => {
+						spotlight.style.setProperty(
+							'--sl-color',
+							isDark()
+								? 'rgba(255,255,255,0.014)'
+								: 'rgba(0,0,0,0.011)',
+						);
+					};
+					setColor();
+					// Re-sync color when theme changes
+					new MutationObserver(setColor).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+					let active = false;
+					window.addEventListener('mousemove', (e) => {
+						spotlight.style.setProperty('--sl-x', e.clientX + 'px');
+						spotlight.style.setProperty('--sl-y', e.clientY + 'px');
+						if (!active) {
+							active = true;
+							spotlight.style.opacity = '1';
+						}
+					}, { passive: true });
+					window.addEventListener('mouseleave', () => {
+						active = false;
+						spotlight.style.opacity = '0';
+					});
+				}
+			})();
+		</script>
+	</body>
+</html>
