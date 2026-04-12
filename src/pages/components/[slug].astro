@@ -138,12 +138,6 @@ const depNote =
 	)}
 
 	<nav class="border-border mb-8 border-b pb-6 xl:hidden" aria-label="On this page">
-		<p
-			class="mb-3 text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
-			style="font-family: var(--font-label, var(--font-mono))"
-		>
-			NAVIGATE
-		</p>
 		<ul class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm sm:flex sm:flex-wrap sm:gap-x-4 sm:gap-y-1 list-none p-0 m-0">
 			{(item.category === 'backgrounds'
 				? ['procedure', 'props', 'dependencies', 'usage', 'source']
@@ -187,16 +181,14 @@ const depNote =
 				prev ? (
 					<a href={prev.href} class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full">
 						<span
-							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
-							style="font-family: var(--font-label, var(--font-mono))"
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground font-mono"
 						>← Previous</span>
 						<span class="text-foreground group-hover:text-foreground font-display text-base font-bold tracking-tight transition-colors duration-200">{prev.title}</span>
 					</a>
 				) : (
 					<a href="/" class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full">
 						<span
-							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
-							style="font-family: var(--font-label, var(--font-mono))"
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground font-mono"
 						>← Return</span>
 						<span class="text-foreground group-hover:text-foreground font-display text-base font-bold tracking-tight transition-colors duration-200">All components</span>
 					</a>
@@ -211,17 +203,15 @@ const depNote =
 						class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full sm:flex sm:flex-col sm:items-end"
 					>
 						<span
-							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
-							style="font-family: var(--font-label, var(--font-mono))"
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground font-mono"
 						>Next →</span>
 						<span class="text-foreground group-hover:text-foreground font-display text-base font-bold tracking-tight transition-colors duration-200">{next.title}</span>
 					</a>
 				) : (
 					<a href="/" class="group block p-6 no-underline hover:bg-muted/20 transition-colors duration-200 cursor-pointer h-full sm:flex sm:flex-col sm:items-end">
 						<span
-							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground"
-							style="font-family: var(--font-label, var(--font-mono))"
-						>Console →</span>
+							class="mb-2 block text-[9px] font-semibold tracking-[0.22em] uppercase text-muted-foreground font-mono"
+						>Home →</span>
 						<span class="text-foreground group-hover:text-foreground font-display text-base font-bold tracking-tight transition-colors duration-200">Landing Page</span>
 					</a>
 				)

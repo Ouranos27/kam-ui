@@ -96,20 +96,15 @@ function IconCode({ className }: { className?: string }) {
 	);
 }
 
-function WorkspaceSectionHeading({ index, title, id }: { index: string; title: string; id: string }) {
+function WorkspaceSectionHeading({ title, id }: { title: string; id: string }) {
 	return (
 		<div className="scroll-mt-28">
-			<div className="flex flex-wrap items-baseline gap-3 sm:gap-4">
-				<span className="kam-ds-index shrink-0" aria-hidden>
-					{index}
-				</span>
-				<h2
-					id={id}
-					className="font-display text-foreground m-0 text-xl font-bold tracking-tight sm:text-2xl"
-				>
-					{title}
-				</h2>
-			</div>
+			<h2
+				id={id}
+				className="font-sans text-foreground m-0 text-xl tracking-tight sm:text-2xl"
+			>
+				{title}
+			</h2>
 		</div>
 	);
 }
@@ -193,21 +188,18 @@ export function SpecimenWorkspace({
 				{/* Observation */}
 				<div className="flex flex-wrap items-start gap-x-12 gap-y-4">
 					<div className="min-w-0">
-						<p className="text-muted-foreground font-mono text-[10px] font-semibold tracking-[0.2em] uppercase">
-							Observation
-						</p>
-						<p className="text-foreground mt-2 font-display text-lg font-semibold tracking-tight">
+						<p className="text-foreground font-display text-lg font-semibold tracking-tight">
 							{showcase.observationTitle}
 						</p>
-						<p className="text-muted-foreground mt-2 max-w-xl text-sm leading-relaxed">{showcase.observationBody}</p>
+						<p className="text-muted-foreground mt-2 max-w-xl text-base leading-relaxed">{showcase.observationBody}</p>
 					</div>
 				</div>
 
 			{/* Procedure */}
-			<div className="border-border border-t pt-10">
+			<div className="border-t border-border/30 pt-12 mt-4">
 				<section className="flex flex-col gap-4" aria-labelledby="procedure">
-					<WorkspaceSectionHeading index="01" title="Procedure" id="procedure" />
-					<p className="text-muted-foreground max-w-2xl leading-relaxed">
+					<WorkspaceSectionHeading title="Procedure" id="procedure" />
+					<p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
 						Execute one of the following in a project that already uses Tailwind CSS and the shadcn CLI.
 					</p>
 					<RegistryInstallTabs itemJsonUrl={itemJsonUrl} depsPkgs={depsPkgsForPm} />
@@ -215,32 +207,26 @@ export function SpecimenWorkspace({
 			</div>
 
 			{/* Props */}
-			<div className="border-border flex flex-col gap-8 border-t pt-10">
+			<div className="flex flex-col gap-8 border-t border-border/30 pt-12 mt-4">
 				<section id="props" className="scroll-mt-28" aria-labelledby="flat-props-heading">
-					<div className="flex flex-wrap items-baseline gap-3 sm:gap-4">
-						<span className="kam-ds-index shrink-0" aria-hidden>02</span>
-						<h3 id="flat-props-heading" className="font-display text-foreground m-0 text-lg font-bold tracking-tight sm:text-xl">
-							Props
-						</h3>
-					</div>
-					<p className="text-muted-foreground mt-1 font-mono text-[10px] font-semibold tracking-[0.2em] uppercase">
-						Public API
-					</p>
+					<h3 id="flat-props-heading" className="font-sans text-foreground m-0 text-lg tracking-tight sm:text-xl">
+						Props
+					</h3>
 					<PropsReferencePanel docs={propDocs} />
 				</section>
 			</div>
 
 			{/* Dependencies */}
-			<div className="border-border border-t pt-10">
+			<div className="border-t border-border/30 pt-12 mt-4">
 				<div id="dependencies" className="scroll-mt-28">
 					<DependenciesPanel variant="observation" packages={depPackages} note={depNote} />
 				</div>
 			</div>
 
 				{/* Usage */}
-				<div className="border-border border-t pt-10">
+				<div className="border-t border-border/30 pt-12 mt-4">
 					<section className="flex flex-col gap-4" aria-labelledby="usage">
-						<WorkspaceSectionHeading index="03" title="Usage" id="usage" />
+						<WorkspaceSectionHeading title="Usage" id="usage" />
 						<div className="flex flex-col gap-4">
 							<div>
 							{/* macOS terminal window for the one-liner */}
@@ -277,9 +263,9 @@ export function SpecimenWorkspace({
 			</div>
 
 			{/* Source */}
-			<div className="border-border border-t pt-10">
+			<div className="border-t border-border/30 pt-12 mt-4">
 				<section className="flex flex-col gap-4 scroll-mt-28" aria-labelledby="source">
-					<WorkspaceSectionHeading index="04" title="Source" id="source" />
+					<WorkspaceSectionHeading title="Source" id="source" />
 					<ShikiSourceBlock
 						html={highlightedHtml}
 						plainSource={source}
@@ -423,16 +409,13 @@ export function SpecimenWorkspace({
 				</div>
 			</ShowcaseObserverRootContext.Provider>
 
-			<div className="border-border flex flex-col gap-10 border-t pt-10">
+			<div className="border-border/30 flex flex-col gap-10 border-t pt-12 mt-4">
 				<div className="flex flex-wrap items-start gap-x-12 gap-y-4">
 					<div className="min-w-0">
-						<p className="text-muted-foreground font-mono text-[10px] font-semibold tracking-[0.2em] uppercase">
-							Observation
-						</p>
-						<p className="text-foreground mt-2 font-display text-lg font-semibold tracking-tight">
+						<p className="text-foreground font-display text-lg font-semibold tracking-tight">
 							{showcase.observationTitle}
 						</p>
-						<p className="text-muted-foreground mt-2 max-w-xl text-sm leading-relaxed">{showcase.observationBody}</p>
+						<p className="text-muted-foreground mt-2 max-w-xl text-base leading-relaxed">{showcase.observationBody}</p>
 					</div>
 				</div>
 				<div id="dependencies" className="scroll-mt-28">
@@ -440,23 +423,15 @@ export function SpecimenWorkspace({
 				</div>
 			</div>
 
-				<div className="border-border flex flex-col gap-8 border-t pt-10">
+				<div className="flex flex-col gap-8 border-t border-border/30 pt-12 mt-4">
 					<section
 						id="props"
 						className="scroll-mt-28"
 						aria-labelledby={`${prevId}-props-heading`}
 					>
-						<div className="flex flex-wrap items-baseline gap-3 sm:gap-4">
-							<span className="kam-ds-index shrink-0" aria-hidden>
-								01
-							</span>
-							<h3 id={`${prevId}-props-heading`} className="font-display text-foreground m-0 text-lg font-bold tracking-tight sm:text-xl">
-								Props
-							</h3>
-						</div>
-						<p className="text-muted-foreground mt-1 font-mono text-[10px] font-semibold tracking-[0.2em] uppercase">
-							Public API
-						</p>
+						<h3 id={`${prevId}-props-heading`} className="font-sans text-foreground m-0 text-lg tracking-tight sm:text-xl">
+							Props
+						</h3>
 						<PropsReferencePanel docs={propDocs} />
 					</section>
 				</div>
@@ -474,15 +449,15 @@ export function SpecimenWorkspace({
 			{codeEverOpened ? (
 			<div className="flex flex-col gap-11 px-4 py-6 sm:px-6 sm:py-8">
 				<section className="flex flex-col gap-4" aria-labelledby="procedure">
-					<WorkspaceSectionHeading index="02" title="Procedure" id="procedure" />
-					<p className="text-muted-foreground max-w-2xl leading-relaxed">
+					<WorkspaceSectionHeading title="Procedure" id="procedure" />
+					<p className="text-muted-foreground max-w-2xl text-base leading-relaxed">
 						Execute one of the following in a project that already uses Tailwind CSS and the shadcn CLI.
 					</p>
 					<RegistryInstallTabs itemJsonUrl={itemJsonUrl} depsPkgs={depsPkgsForPm} />
 				</section>
 
 				<section className="flex flex-col gap-4" aria-labelledby="usage">
-					<WorkspaceSectionHeading index="03" title="Usage" id="usage" />
+					<WorkspaceSectionHeading title="Usage" id="usage" />
 					<div className="flex flex-col gap-4">
 						<div>
 						{/* macOS terminal window for the one-liner */}
@@ -518,7 +493,7 @@ export function SpecimenWorkspace({
 				</section>
 
 				<section className="flex flex-col gap-4 scroll-mt-28" aria-labelledby="source">
-					<WorkspaceSectionHeading index="04" title="Source" id="source" />
+					<WorkspaceSectionHeading title="Source" id="source" />
 					<ShikiSourceBlock
 						html={highlightedHtml}
 						plainSource={source}
