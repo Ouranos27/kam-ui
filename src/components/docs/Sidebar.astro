@@ -62,7 +62,6 @@ const linkActive =
 				aria-label="Mobile"
 			>
 				<div>
-					<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Docs</p>
 					<ul class="flex flex-col gap-0.5">
 						{
 							mainNav.map((item) => (
@@ -81,35 +80,32 @@ const linkActive =
 						}
 					</ul>
 				</div>
-				<div>
-					<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Components</p>
-					<div class="flex flex-col gap-4">
-						{
-							componentNavGrouped.map((group) => (
-								<div>
-									<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">{group.label}</p>
-									{group.items.length > 0 ? (
-										<ul class="flex flex-col gap-0.5">
-											{group.items.map((item) => (
-												<li>
-													<a
-														href={item.href}
-														class:list={[linkBase, isActive(item.href) ? linkActive : linkIdle]}
-													>
-														{item.title}
-													</a>
-												</li>
-											))}
-										</ul>
-									) : (
-										<p class="text-muted-foreground/85 px-3 py-1.5 font-mono text-[10px] leading-snug">
-											{group.emptyHint ?? '—'}
-										</p>
-									)}
-								</div>
-							))
-						}
-					</div>
+				<div class="border-t border-border/40 pt-4">
+					{
+						componentNavGrouped.map((group) => (
+							<div class="mb-2">
+								<p class="mb-1.5 px-3 font-mono text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">{group.label}</p>
+								{group.items.length > 0 ? (
+									<ul class="flex flex-col">
+										{group.items.map((item) => (
+											<li>
+												<a
+													href={item.href}
+													class:list={[linkBase, 'pl-5', isActive(item.href) ? linkActive : linkIdle]}
+												>
+													{item.title}
+												</a>
+											</li>
+										))}
+									</ul>
+								) : (
+									<p class="text-muted-foreground/60 px-5 py-1.5 font-mono text-[10px] leading-snug">
+										{group.emptyHint ?? '—'}
+									</p>
+								)}
+							</div>
+						))
+					}
 				</div>
 			</nav>
 		</details>
@@ -118,9 +114,8 @@ const linkActive =
 
 	<!-- Desktop navigation — fills remaining height, scrollable -->
 	<nav class="hidden flex-1 overflow-y-auto px-3 pb-4 lg:block" aria-label="Docs">
-		<!-- Docs section -->
-		<div class="mb-6">
-			<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Docs</p>
+		<!-- Docs links -->
+		<div class="mb-4">
 			<ul class="flex flex-col gap-0.5">
 				{
 					mainNav.map((item) => (
@@ -140,33 +135,30 @@ const linkActive =
 			</ul>
 		</div>
 
-		<!-- Components (grouped catalog) -->
-		<div>
-			<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Components</p>
-			<div class="flex flex-col gap-4">
-				{
-					componentNavGrouped.map((group) => (
-						<div>
-							<p class="mb-2 px-3 text-[10px] font-medium uppercase tracking-widest text-muted-foreground">{group.label}</p>
-							{group.items.length > 0 ? (
-								<ul class="flex flex-col gap-0.5">
-									{group.items.map((item) => (
-										<li>
-											<a href={item.href} class:list={[linkBase, isActive(item.href) ? linkActive : linkIdle]}>
-												{item.title}
-											</a>
-										</li>
-									))}
-								</ul>
-							) : (
-								<p class="text-muted-foreground/85 px-3 py-1.5 font-mono text-[10px] leading-snug">
-									{group.emptyHint ?? '—'}
-								</p>
-							)}
-						</div>
-					))
-				}
-			</div>
+		<!-- Components (grouped by category) -->
+		<div class="border-t border-border/40 pt-4">
+			{
+				componentNavGrouped.map((group) => (
+					<div class="mb-2">
+						<p class="mb-1.5 px-3 font-mono text-[9px] font-medium uppercase tracking-[0.2em] text-muted-foreground/50">{group.label}</p>
+						{group.items.length > 0 ? (
+							<ul class="flex flex-col">
+								{group.items.map((item) => (
+									<li>
+										<a href={item.href} class:list={[linkBase, 'pl-5', isActive(item.href) ? linkActive : linkIdle]}>
+											{item.title}
+										</a>
+									</li>
+								))}
+							</ul>
+						) : (
+							<p class="text-muted-foreground/60 px-5 py-1.5 font-mono text-[10px] leading-snug">
+								{group.emptyHint ?? '—'}
+							</p>
+						)}
+					</div>
+				))
+			}
 		</div>
 	</nav>
 
