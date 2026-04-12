@@ -19,31 +19,14 @@ export type ShikiSourceBlockProps = {
 	collapsedHeight?: string;
 };
 
-/** macOS traffic-light dot row */
+/** macOS traffic-light dots */
 function TrafficLights() {
 	return (
 		<div className="flex shrink-0 items-center gap-[7px]" aria-hidden>
-			<span className="size-[11px] rounded-full bg-[#ff5f57] shadow-[inset_0_0_0_0.5px_oklch(0_0_0/0.25)]" />
-			<span className="size-[11px] rounded-full bg-[#febc2e] shadow-[inset_0_0_0_0.5px_oklch(0_0_0/0.25)]" />
-			<span className="size-[11px] rounded-full bg-[#28c840] shadow-[inset_0_0_0_0.5px_oklch(0_0_0/0.25)]" />
+			<span className="size-[11px] rounded-full bg-[#ff5f57]" />
+			<span className="size-[11px] rounded-full bg-[#febc2e]" />
+			<span className="size-[11px] rounded-full bg-[#28c840]" />
 		</div>
-	);
-}
-
-function IconCopy() {
-	return (
-		<svg className="size-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-			<rect x="9" y="9" width="13" height="13" rx="2" />
-			<path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-		</svg>
-	);
-}
-
-function IconCheck() {
-	return (
-		<svg className="size-[15px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-			<path d="M5 13l4 4L19 7" />
-		</svg>
 	);
 }
 
@@ -72,67 +55,75 @@ export function ShikiSourceBlock({
 	}, [plainSource]);
 
 	return (
-		<div className="-mx-1 mt-0 md:-mx-1" id={id}>
-			{/* ── macOS window shell ── */}
-			<div className="overflow-hidden rounded-xl shadow-[0_4px_16px_-4px_oklch(0_0_0/0.4),0_0_0_1px_rgba(255,255,255,0.05)]">
+		<div className="mt-0" id={id}>
+			{/* macOS window frame */}
+			<div className="overflow-hidden rounded-lg border border-white/[0.06] shadow-[0_2px_12px_-4px_rgba(0,0,0,0.5)]">
 
-				{/* ── Clipping wrapper (controls visible height when collapsed) ── */}
+				{/* Clipping wrapper for collapsed state */}
 				<div
 					className={cn('relative', isCollapsed && 'overflow-hidden')}
 					style={isCollapsed ? { maxHeight: collapsedHeight } : undefined}
 				>
-					{/* ── Title bar ── */}
-					<div className="relative flex h-11 shrink-0 items-center justify-between border-b border-white/6 bg-[#1e1f2b] px-4">
+					{/* Title bar */}
+					<div className="flex h-10 shrink-0 items-center justify-between border-b border-white/[0.06] bg-[#0a0a0a] px-4">
 						<TrafficLights />
 
-						{/* Centered filename — clamped so it doesn't overlap the buttons */}
-						<span className="pointer-events-none absolute inset-x-0 overflow-hidden text-ellipsis text-center font-mono text-[11px] tracking-[0.18em] uppercase text-white/35 select-none px-24 whitespace-nowrap">
+						{/* Centered filename */}
+						<span className="pointer-events-none absolute inset-x-0 overflow-hidden text-ellipsis text-center font-mono text-[11px] tracking-wider text-white/25 select-none px-24 whitespace-nowrap">
 							{filename}
 						</span>
 
-						{/* Copy icon */}
+						{/* Copy button */}
 						<button
 							type="button"
 							onClick={onCopy}
-							aria-label={copied ? 'Source extracted' : 'Extract source — copy code'}
+							aria-label={copied ? 'Copied' : 'Copy code'}
 							className={cn(
-								'relative z-10 flex size-7 cursor-pointer items-center justify-center rounded-md transition-colors duration-150',
+								'relative z-10 flex size-7 cursor-pointer items-center justify-center rounded transition-colors duration-150',
 								copied
-									? 'text-[#28c840]'
-									: 'text-white/40 hover:bg-white/8 hover:text-white/75',
+									? 'text-white'
+									: 'text-white/25 hover:text-white/60',
 							)}
 						>
-							{copied ? <IconCheck /> : <IconCopy />}
+							{copied ? (
+								<svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+									<path d="M5 13l4 4L19 7" />
+								</svg>
+							) : (
+								<svg className="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+									<rect x="9" y="9" width="13" height="13" rx="2" />
+									<path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+								</svg>
+							)}
 						</button>
 					</div>
 
-					{/* ── Code body ── */}
+					{/* Code body — HTML from Shiki (build-time, trusted source) */}
 					<div
-						className="mac-window-code [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-none [&_pre]:border-0 [&_pre]:pl-0! [&_pre]:pr-4 [&_pre]:py-4 [&_pre]:text-xs"
-						// eslint-disable-next-line react/no-danger -- HTML produced at build-time from checked-in source
+						className="mac-window-code bg-[#0f0f0f] [&_pre]:m-0 [&_pre]:overflow-x-auto [&_pre]:rounded-none [&_pre]:border-0 [&_pre]:bg-transparent! [&_pre]:pl-0! [&_pre]:pr-4 [&_pre]:py-4 [&_pre]:text-[13px] [&_pre]:leading-relaxed"
 						dangerouslySetInnerHTML={{ __html: html }}
 					/>
 
-					{/* Gradient fade — matches one-dark-pro's #282c34 bg */}
+					{/* Gradient fade when collapsed */}
 					{isCollapsed && (
 						<div
 							className="pointer-events-none absolute bottom-0 left-0 right-0 h-24"
-							style={{ background: 'linear-gradient(to bottom, transparent, #282c34 90%)' }}
+							style={{ background: 'linear-gradient(to bottom, transparent, #0f0f0f 90%)' }}
 							aria-hidden
 						/>
 					)}
 				</div>
 
-				{/* ── Expand / Collapse toggle bar ── */}
+				{/* Expand / Collapse toggle */}
 				{collapsible && (
-					<div className="flex items-center justify-between border-t border-white/6 bg-[#1e1f2b] px-4 py-2">
-						<span className="select-none font-mono text-[10px] tracking-[0.15em] uppercase text-white/25">
+					<div className="flex items-center justify-between border-t border-white/[0.06] bg-[#0a0a0a] px-4 py-2">
+						<span className="select-none font-mono text-[10px] tracking-wider text-white/20">
 							{lineCount} lines
 						</span>
 						<button
 							type="button"
 							onClick={() => setExpanded((e) => !e)}
-							className="flex cursor-pointer items-center gap-1.5 font-mono text-[10px] font-semibold tracking-[0.15em] uppercase text-foreground transition-colors duration-150 hover:text-foreground/70"
+							className="flex cursor-pointer items-center gap-1.5 font-mono text-[10px] font-medium tracking-wider uppercase text-white/40 transition-colors duration-150 hover:text-white/70"
 							aria-expanded={expanded}
 						>
 							{expanded ? (
@@ -157,4 +148,3 @@ export function ShikiSourceBlock({
 		</div>
 	);
 }
-
