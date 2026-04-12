@@ -6,15 +6,6 @@ import '../styles/global.css';
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <script is:inline>
-      try {
-        const v = localStorage.getItem('kam-ui-theme');
-        const r = document.documentElement;
-        if (v === 'dark') r.classList.add('dark');
-        else if (v === 'system') r.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
-        else r.classList.add('dark');
-      } catch {}
-    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width" />

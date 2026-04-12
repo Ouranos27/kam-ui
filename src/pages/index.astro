@@ -10,17 +10,6 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<script is:inline>
-			try {
-				const k = 'kam-ui-theme';
-				const v = localStorage.getItem(k);
-				const r = document.documentElement;
-				if (v === 'dark') r.classList.add('dark');
-				else if (v === 'system')
-					r.classList.toggle('dark', window.matchMedia('(prefers-color-scheme: dark)').matches);
-				else r.classList.add('dark');
-			} catch {}
-		</script>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
@@ -40,7 +29,7 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 		<title>kam-ui · Motion registry</title>
 	</head>
 
-	<body class="bg-background text-foreground min-h-screen font-sans antialiased overscroll-none">
+	<body class="bg-background text-foreground min-h-screen antialiased">
 
 		<!-- Skip to main -->
 		<a class="skip-to-main" href="#main-content">Skip to main content</a>
@@ -55,11 +44,6 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 					<a href="https://github.com/Ouranos27/kam-ui" target="_blank" rel="noopener noreferrer" class="text-white/50 hover:text-white transition-colors" aria-label="GitHub">
 						<svg class="size-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2Z"/></svg>
 					</a>
-					<select id="kam-theme-landing" class="bg-transparent text-sm text-white/50 cursor-pointer border-none outline-none" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;">
-						<option value="dark">Dark</option>
-						<option value="light">Light</option>
-						<option value="system">System</option>
-					</select>
 				</div>
 			</div>
 		</nav>
@@ -123,32 +107,9 @@ const description = 'kam-ui — animated WebGL and CSS background components for
 			</div>
 		</footer>
 
-		<!-- Theme toggle + copy button -->
+		<!-- Copy button -->
 		<script is:inline>
 			(() => {
-				const KEY = 'kam-ui-theme';
-				const root = document.documentElement;
-				function readStored() {
-					const v = localStorage.getItem(KEY);
-					if (v === 'light' || v === 'dark' || v === 'system') return v;
-					return 'dark';
-				}
-				function apply(mode) {
-					if (mode === 'light') root.classList.remove('dark');
-					else if (mode === 'dark') root.classList.add('dark');
-					else root.classList.toggle('dark', matchMedia('(prefers-color-scheme: dark)').matches);
-				}
-				const sel = document.getElementById('kam-theme-landing');
-				if (sel instanceof HTMLSelectElement) {
-					sel.value = readStored();
-					sel.addEventListener('change', () => {
-						localStorage.setItem(KEY, sel.value);
-						apply(sel.value);
-					});
-				}
-				matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-					if (readStored() === 'system') apply('system');
-				});
 				const copyBtn = document.getElementById('copy-install-btn');
 				if (copyBtn) {
 					copyBtn.addEventListener('click', () => {

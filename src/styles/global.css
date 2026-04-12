@@ -2,52 +2,9 @@
 
 @source "../**/*.{astro,tsx,ts,mjs}";
 
-/*
- * Light: :root · Dark: html.dark — default light (localStorage kam-ui-theme).
- * Site chrome uses semantic tokens; registry previews stay visually neutral (no lab-only framing).
- * docs/DESIGN_SYSTEM.md
- */
+/* Dark-only tokens — no light mode. */
 :root {
 	--radius: 0.5rem;
-	--background: #ffffff;
-	--foreground: #111111;
-	--card: #f5f5f5;
-	--card-foreground: #111111;
-	--popover: #ffffff;
-	--popover-foreground: #111111;
-	--primary: #111111;
-	--primary-foreground: #e5e5e5;
-	--secondary: #f5f5f5;
-	--secondary-foreground: #111111;
-	--muted: #f5f5f5;
-	--muted-foreground: #888888;
-	--accent: #f5f5f5;
-	--accent-foreground: #111111;
-	--destructive: #dc2626;
-	--border: #e5e5e5;
-	--input: #e5e5e5;
-	--ring: #888888;
-	--sidebar: #fafafa;
-	--sidebar-foreground: #111111;
-	--sidebar-primary: #111111;
-	--sidebar-primary-foreground: #e5e5e5;
-	--sidebar-accent: #f0f0f0;
-	--sidebar-accent-foreground: #111111;
-	--sidebar-border: #e5e5e5;
-	--sidebar-ring: #888888;
-	--surface: #fafafa;
-	--surface-foreground: #111111;
-	--selection: #111111;
-	--selection-foreground: #ffffff;
-	--code: #0a0a0a;
-	--code-foreground: #e5e5e5;
-	--code-highlight: #1a1a1a;
-	--code-number: #888888;
-	--kam-chamber-dark: #09090b;
-	--kam-chamber-grid-line: #e5e5e5;
-}
-
-.dark {
 	--background: #000000;
 	--foreground: #e5e5e5;
 	--card: #0a0a0a;
@@ -82,6 +39,7 @@
 	--code-number: #666666;
 	--selection: #e5e5e5;
 	--selection-foreground: #000000;
+	--kam-chamber-dark: #09090b;
 	--kam-chamber-grid-line: #1a1a1a;
 }
 
@@ -157,16 +115,12 @@ body {
 
 	html {
 		overflow-x: clip; /* clip instead of hidden — avoids killing the scroll root */
-		color-scheme: light;
+		color-scheme: dark;
 		scroll-behavior: smooth;
 	}
 
-	html.dark {
-		color-scheme: dark;
-	}
-
 	body {
-		@apply bg-background text-foreground min-h-screen overscroll-none font-sans antialiased;
+		@apply bg-background text-foreground min-h-screen antialiased;
 		font-synthesis-weight: none;
 		text-rendering: optimizeLegibility;
 	}
@@ -204,18 +158,7 @@ body {
 		background-color: var(--background);
 	}
 
-	html:not(.dark) body::before {
-		background-image: radial-gradient(
-			ellipse 120% 80% at 50% -30%,
-			color-mix(in oklch, var(--foreground) 5%, transparent),
-			transparent 50%
-		);
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		background-position: center;
-	}
-
-	html.dark body::before {
+	body::before {
 		background-image: radial-gradient(
 			ellipse 120% 80% at 50% -30%,
 			color-mix(in oklch, var(--foreground) 8%, transparent),
@@ -242,9 +185,6 @@ body {
 		outline-offset: 2px;
 	}
 
-	html:not(.dark) :focus-visible {
-		outline-color: rgba(0, 0, 0, 0.4);
-	}
 }
 
 @utility no-scrollbar {
@@ -285,7 +225,7 @@ body {
 		background-color: var(--card);
 		color: var(--foreground);
 		border: 1px solid var(--border);
-		box-shadow: 0 12px 40px oklch(0 0 0 / 0.18);
+		box-shadow: 0 12px 40px oklch(0 0 0 / 0.45);
 		outline: 2px solid color-mix(in oklch, var(--ring) 55%, transparent);
 		outline-offset: 3px;
 		text-decoration: none;
@@ -294,21 +234,10 @@ body {
 		cursor: pointer;
 	}
 
-	html.dark .skip-to-main:focus {
-		box-shadow: 0 12px 40px oklch(0 0 0 / 0.45);
-	}
-
 	/* Main column — docs article panel */
 	.kam-main-panel {
 		@apply flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-none border-0;
 		@apply bg-background md:rounded-none md:border md:border-border;
-		@apply dark:bg-background dark:md:border-border;
-		box-shadow:
-			0 0 0 1px color-mix(in oklch, var(--foreground) 5%, transparent) inset,
-			5px 5px 0 0 color-mix(in oklch, var(--foreground) 9%, transparent);
-	}
-
-	html.dark .kam-main-panel {
 		box-shadow:
 			0 0 0 1px color-mix(in oklch, var(--foreground) 6%, transparent) inset,
 			5px 5px 0 0 color-mix(in oklch, var(--foreground) 10%, transparent);
@@ -322,15 +251,11 @@ body {
 	}
 
 	.kam-chamber-grid {
-		background-color: oklch(0.985 0 0);
+		background-color: oklch(0.2 0.015 260);
 		background-image:
 			linear-gradient(var(--kam-chamber-grid-line) 1px, transparent 1px),
 			linear-gradient(90deg, var(--kam-chamber-grid-line) 1px, transparent 1px);
 		background-size: 24px 24px;
-	}
-
-	html.dark .kam-chamber-grid {
-		background-color: oklch(0.2 0.015 260);
 	}
 
 	.kam-showcase-bg--cosmic-drift {
@@ -414,10 +339,6 @@ body {
 		@apply bg-muted text-foreground;
 	}
 
-	html.dark .kam-rb-pill[data-active='true'] {
-		@apply text-foreground;
-	}
-
 	.kam-rb-pill:focus-visible {
 		@apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
 	}
@@ -441,11 +362,7 @@ body {
 			0 0 0 4px color-mix(in oklch, var(--ring) 85%, transparent);
 	}
 
-	html:not(.dark) .kam-lcd-segment[data-active='true'] {
-		@apply bg-black text-white;
-	}
-
-	html.dark .kam-lcd-segment[data-active='true'] {
+	.kam-lcd-segment[data-active='true'] {
 		@apply bg-zinc-100 text-black;
 	}
 
@@ -532,12 +449,7 @@ body {
 		box-shadow: 0 14px 36px -20px oklch(0 0 0 / 0.18);
 	}
 
-	/* Dark island on light page: UI border is pale gray — use a faint light edge on the slate block */
-	html:not(.dark) [data-rehype-pretty-code-figure] {
-		border-color: color-mix(in oklch, white 14%, transparent);
-	}
-
-	html.dark [data-rehype-pretty-code-figure] {
+	[data-rehype-pretty-code-figure] {
 		border-color: color-mix(in oklch, var(--border) 85%, transparent);
 		box-shadow:
 			0 0 0 1px color-mix(in oklch, var(--foreground) 18%, transparent),
@@ -598,14 +510,6 @@ body {
 			transparent 0.8px
 		);
 		background-size: 12px 12px;
-	}
-
-	html:not(.dark) .kam-ds-dotfield {
-		background-image: radial-gradient(
-			circle at center,
-			color-mix(in oklch, var(--foreground) 6%, transparent) 0.8px,
-			transparent 0.8px
-		);
 	}
 
 	.kam-ds-index {
@@ -688,15 +592,10 @@ body {
 	/* Spec / inset copy — tint + hairline, not a glass card stack */
 	.kam-ds-spec {
 		border-radius: var(--radius-lg);
-		border: 1px solid color-mix(in oklch, var(--border) 35%, transparent);
-		background-color: color-mix(in oklch, var(--muted) 32%, transparent);
+		border: 1px solid color-mix(in oklch, var(--border) 40%, transparent);
+		background-color: color-mix(in oklch, var(--muted) 18%, transparent);
 		box-shadow: none;
 		backdrop-filter: none;
-	}
-
-	html.dark .kam-ds-spec {
-		background-color: color-mix(in oklch, var(--muted) 18%, transparent);
-		border-color: color-mix(in oklch, var(--border) 40%, transparent);
 	}
 
 }
