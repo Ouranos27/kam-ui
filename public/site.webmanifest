@@ -1,0 +1,13 @@
+{
+  "name": "kam-ui",
+  "short_name": "kam-ui",
+  "description": "Motion-rich React component registry — animated WebGL & CSS backgrounds, installable via shadcn CLI.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#08090f",
+  "theme_color": "#08090f",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/apple-touch-icon.png", "type": "image/png", "sizes": "180x180" }
+  ]
+}

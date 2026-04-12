@@ -37,7 +37,11 @@ const fullTitle = title === 'kam-ui' ? title : `${title} · kam-ui`;
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="canonical" href={`https://ui.philippekam.dev${Astro.url.pathname}`} />
 		<meta name="viewport" content="width=device-width" />
+		<meta name="theme-color" content="#08090f" />
 		<meta name="generator" content={Astro.generator} />
 		{description && <meta name="description" content={description} />}
 		<meta property="og:title" content={fullTitle} />
