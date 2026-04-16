@@ -9,6 +9,7 @@ import blackHoleSource from '../components/react/BlackHole.tsx?raw';
 import meshGradientSource from '../components/react/MeshGradient.tsx?raw';
 import atmosphericSkySource from '../components/react/AtmosphericSky.tsx?raw';
 import milkyWaySource from '../components/react/MilkyWay.tsx?raw';
+import gasGiantSource from '../components/react/GasGiant.tsx?raw';
 
 export type ComponentSlug =
 	| 'radiant-veil'
@@ -21,7 +22,8 @@ export type ComponentSlug =
 	| 'black-hole'
 	| 'mesh-gradient'
 	| 'atmospheric-sky'
-	| 'milky-way';
+	| 'milky-way'
+	| 'gas-giant';
 
 export type SourceEntry = {
 	source: string;
@@ -72,5 +74,9 @@ export const componentRegistry = {
 	'milky-way': {
 		source: milkyWaySource,
 		filename: 'MilkyWay.tsx',
+	},
+	'gas-giant': {
+		source: gasGiantSource,
+		filename: 'GasGiant.tsx',
 	},
 } satisfies Record<ComponentSlug, SourceEntry>;

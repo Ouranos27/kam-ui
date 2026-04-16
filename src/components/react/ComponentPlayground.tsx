@@ -15,6 +15,7 @@ const LazySolarFlare = lazy(async () => ({ default: (await import('./SolarFlare'
 const LazyMeshGradient = lazy(async () => ({ default: (await import('./MeshGradient')).MeshGradient }));
 const LazyAtmosphericSky = lazy(async () => ({ default: (await import('./AtmosphericSky')).AtmosphericSky }));
 const LazyMilkyWay = lazy(async () => ({ default: (await import('./MilkyWay')).MilkyWay }));
+const LazyGasGiant = lazy(async () => ({ default: (await import('./GasGiant')).GasGiant }));
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -397,6 +398,34 @@ export function ComponentPlayground({ slug, propsOverride, quality = 'auto' }: C
 							rotation={p<number>(slug, propsOverride, 'rotation')}
 							tilt={p<number>(slug, propsOverride, 'tilt')}
 							speed={p<number>(slug, propsOverride, 'speed')}
+							quality={quality}
+						/>
+					</Suspense>
+				</div>
+			);
+
+		case 'gas-giant':
+			return (
+				<div className={BG_STAGE}>
+					<Suspense fallback={fallback}>
+						<LazyGasGiant
+							className="min-h-full flex-1"
+							textureUrl={p<string>(slug, propsOverride, 'textureUrl')}
+							procedural={p<boolean>(slug, propsOverride, 'procedural')}
+							radius={p<number>(slug, propsOverride, 'radius')}
+							oblateness={p<number>(slug, propsOverride, 'oblateness')}
+							atmosphereColor={p<string>(slug, propsOverride, 'atmosphereColor')}
+							atmosphereIntensity={p<number>(slug, propsOverride, 'atmosphereIntensity')}
+							lightDirection={p<[number, number, number]>(slug, propsOverride, 'lightDirection')}
+							tilt={p<number>(slug, propsOverride, 'tilt')}
+							speed={p<number>(slug, propsOverride, 'speed')}
+							hasRings={p<boolean>(slug, propsOverride, 'hasRings')}
+							ringColor={p<string>(slug, propsOverride, 'ringColor')}
+							turbulence={p<number>(slug, propsOverride, 'turbulence')}
+							starfield={p<boolean>(slug, propsOverride, 'starfield')}
+							mouseReact={p<boolean>(slug, propsOverride, 'mouseReact')}
+							bandColor1={p<string>(slug, propsOverride, 'bandColor1')}
+							bandColor2={p<string>(slug, propsOverride, 'bandColor2')}
 							quality={quality}
 						/>
 					</Suspense>

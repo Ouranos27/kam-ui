@@ -240,6 +240,27 @@
       ]
     },
     {
+      "name": "gas-giant",
+      "type": "registry:component",
+      "title": "Gas Giant",
+      "description": "Photorealistic gas giant planet renderer using an equirectangular texture map. Features an oblate spheroid projection, PBR lighting, and volumetric-style atmospheric limb scattering. Requires public/jupiter/8k_jupiter.jpg (~3 MB).",
+      "dependencies": [
+        "clsx@^2.1.1",
+        "tailwind-merge@^3.5.0",
+        "ogl@^1.0.11"
+      ],
+      "registryDependencies": [
+        "https://ui.philippekam.dev/r/kam-utils.json",
+        "https://ui.philippekam.dev/r/kam-containment.json"
+      ],
+      "files": [
+        {
+          "path": "components/kam/gas-giant.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
       "name": "black-hole",
       "type": "registry:component",
       "title": "Black Hole",
